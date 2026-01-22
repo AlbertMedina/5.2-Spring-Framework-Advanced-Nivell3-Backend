@@ -1,40 +1,25 @@
 package com.videostore.videostore.domain.model;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "reviews")
 public class Review {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final User user;
+    private final Movie movie;
+    private final int score;
+    private final String comment;
 
-    public Long userId;
-    public Long movieId;
-    public int score;
-    public String comment;
-
-    public Review() {
-    }
-
-    public Review(Long userId, Long movieId, int score, String comment) {
-        this.userId = userId;
-        this.movieId = movieId;
+    public Review(User user, Movie movie, int score, String comment) {
+        this.user = user;
+        this.movie = movie;
         this.score = score;
         this.comment = comment;
     }
 
-    public Long getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getMovieId() {
-        return movieId;
+    public Movie getMovie() {
+        return movie;
     }
 
     public int getScore() {

@@ -1,40 +1,25 @@
 package com.videostore.videostore.domain.model;
 
-import jakarta.persistence.*;
-
 import java.time.LocalDate;
 
-@Entity
-@Table(name = "rentals")
 public class Rental {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private final User user;
+    private final Movie movie;
+    private final LocalDate date;
 
-    public Long userId;
-    public Long movieId;
-    public LocalDate date;
-
-    public Rental() {
-    }
-
-    public Rental(Long userId, Long movieId, LocalDate date) {
-        this.userId = userId;
-        this.movieId = movieId;
+    public Rental(User user, Movie movie, LocalDate date) {
+        this.user = user;
+        this.movie = movie;
         this.date = date;
     }
 
-    public Long getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public Long getMovieId() {
-        return movieId;
+    public Movie getMovie() {
+        return movie;
     }
 
     public LocalDate getDate() {
