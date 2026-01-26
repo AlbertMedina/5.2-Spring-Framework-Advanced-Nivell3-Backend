@@ -1,12 +1,13 @@
 package com.videostore.videostore.domain.model.user.valueobject;
 
-public record Name(String name) {
+public record Name(String value) {
+
     public Name {
-        if (name == null || name.isBlank()) {
+        if (value == null || value.isBlank()) {
             throw new IllegalArgumentException("Name cannot be empty");
         }
 
-        if (!name.matches("^[A-Za-zÀ-ÿ' -]+$")) {
+        if (!value.matches("^[A-Za-zÀ-ÿ' -]+$")) {
             throw new IllegalArgumentException("Invalid name format");
         }
     }
