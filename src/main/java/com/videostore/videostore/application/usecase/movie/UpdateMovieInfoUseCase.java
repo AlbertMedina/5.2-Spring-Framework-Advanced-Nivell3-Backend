@@ -15,14 +15,15 @@ public class UpdateMovieInfoUseCase {
     }
 
     public Movie execute(Long id, UpdateMovieInfoCommand command) {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
+        Movie movie = movieRepository.findById(id)
+                .orElseThrow(() -> new MovieNotFoundException(id));
 
-        movie.setTitle(new Title(command.getTitle()));
-        movie.setYear(new Year(command.getYear()));
-        movie.setGenre(new Genre(command.getGenre()));
-        movie.setDuration(new Duration(command.getDuration()));
-        movie.setDirector(new Director(command.getDirector()));
-        movie.setSynopsis(new Synopsis(command.getSynopsis()));
+        movie.setTitle(new Title(command.title()));
+        movie.setYear(new Year(command.year()));
+        movie.setGenre(new Genre(command.genre()));
+        movie.setDuration(new Duration(command.duration()));
+        movie.setDirector(new Director(command.director()));
+        movie.setSynopsis(new Synopsis(command.synopsis()));
 
         return movieRepository.addMovie(movie);
     }

@@ -15,13 +15,13 @@ public class AddMovieUseCase {
 
     public Movie execute(AddMovieCommand command) {
         Movie movie = Movie.create(
-                new Title(command.getTitle()),
-                new Year(command.getYear()),
-                new Genre(command.getGenre()),
-                new Duration(command.getDuration()),
-                new Director(command.getDirector()),
-                new Synopsis(command.getSynopsis()),
-                new NumberOfCopies(command.getNumberOfCopies())
+                new Title(command.title()),
+                new Year(command.year()),
+                new Genre(command.genre()),
+                new Duration(command.duration()),
+                new Director(command.director()),
+                new Synopsis(command.synopsis()),
+                new NumberOfCopies(command.numberOfCopies())
         );
 
         return movieRepository.addMovie(movie);

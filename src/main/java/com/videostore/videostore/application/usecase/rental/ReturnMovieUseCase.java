@@ -14,7 +14,7 @@ public class ReturnMovieUseCase {
     }
 
     public void execute(ReturnMovieCommand returnMovieCommand) {
-        Rental rental = rentalRepository.findByUserIdAndMovieId(returnMovieCommand.getUserId(), returnMovieCommand.getMovieId())
+        Rental rental = rentalRepository.findByUserIdAndMovieId(returnMovieCommand.userId(), returnMovieCommand.movieId())
                 .orElseThrow(() -> new RentalNotFoundException("User cannot return a movie they haven't rented"));
 
         rentalRepository.returnRental(rental);

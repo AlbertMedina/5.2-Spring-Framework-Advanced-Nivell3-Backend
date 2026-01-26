@@ -25,8 +25,8 @@ public class RentMovieUseCase {
     }
 
     public Rental execute(RentMovieCommand rentMovieCommand) {
-        Long userId = rentMovieCommand.getUserId();
-        Long movieId = rentMovieCommand.getMovieId();
+        Long userId = rentMovieCommand.userId();
+        Long movieId = rentMovieCommand.movieId();
 
         User user = userRepository.findById(userId).
                 orElseThrow(() -> new UserNotFoundException(userId));
