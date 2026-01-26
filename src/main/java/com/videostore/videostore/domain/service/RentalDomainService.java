@@ -10,7 +10,7 @@ public class RentalDomainService {
             throw new BusinessRuleViolationException("User has already rented this movie");
         }
 
-        if (totalActiveRentalsOfMovie >= movie.getNumberOfCopies()) {
+        if (totalActiveRentalsOfMovie >= movie.getNumberOfCopies().value()) {
             throw new BusinessRuleViolationException("No copies available for this movie");
         }
     }
