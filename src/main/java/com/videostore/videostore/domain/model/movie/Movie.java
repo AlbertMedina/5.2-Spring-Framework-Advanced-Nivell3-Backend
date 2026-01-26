@@ -1,16 +1,18 @@
 package com.videostore.videostore.domain.model.movie;
 
+import com.videostore.videostore.domain.model.movie.valueobject.*;
+
 public class Movie {
 
-    private String title;
-    private int year;
-    private String genre;
-    private int duration;
-    private String director;
-    private String synopsis;
-    private final int numberOfCopies;
+    private Title title;
+    private Year year;
+    private Genre genre;
+    private Duration duration;
+    private Director director;
+    private Synopsis synopsis;
+    private final NumberOfCopies numberOfCopies;
 
-    public Movie(String title, int year, String genre, int duration, String director, String synopsis, int numberOfCopies) {
+    public Movie(Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
         this.title = title;
         this.year = year;
         this.genre = genre;
@@ -20,59 +22,59 @@ public class Movie {
         this.numberOfCopies = numberOfCopies;
     }
 
-    public String getTitle() {
+    public Title getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public void setTitle(Title title) {
         this.title = title;
     }
 
-    public int getYear() {
+    public Year getYear() {
         return year;
     }
 
-    public void setYear(int year) {
+    public void setYear(Year year) {
         this.year = year;
     }
 
-    public String getGenre() {
+    public Genre getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(Genre genre) {
         this.genre = genre;
     }
 
-    public int getDuration() {
+    public Duration getDuration() {
         return duration;
     }
 
-    public void setDuration(int duration) {
+    public void setDuration(Duration duration) {
         this.duration = duration;
     }
 
-    public String getDirector() {
+    public Director getDirector() {
         return director;
     }
 
-    public void setDirector(String director) {
+    public void setDirector(Director director) {
         this.director = director;
     }
 
-    public String getSynopsis() {
+    public Synopsis getSynopsis() {
         return synopsis;
     }
 
-    public void setSynopsis(String synopsis) {
+    public void setSynopsis(Synopsis synopsis) {
         this.synopsis = synopsis;
     }
 
-    public int getNumberOfCopies() {
+    public NumberOfCopies getNumberOfCopies() {
         return numberOfCopies;
     }
 
-    public static Movie create(String title, int year, String genre, int duration, String director, String synopsis, int numberOfCopies) {
+    public static Movie create(Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
         return new Movie(title, year, genre, duration, director, synopsis, numberOfCopies);
     }
 }

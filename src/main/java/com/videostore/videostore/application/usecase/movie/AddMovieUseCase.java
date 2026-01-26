@@ -2,6 +2,7 @@ package com.videostore.videostore.application.usecase.movie;
 
 import com.videostore.videostore.application.command.movie.AddMovieCommand;
 import com.videostore.videostore.domain.model.movie.Movie;
+import com.videostore.videostore.domain.model.movie.valueobject.*;
 import com.videostore.videostore.domain.repository.MovieRepository;
 
 public class AddMovieUseCase {
@@ -14,13 +15,13 @@ public class AddMovieUseCase {
 
     public Movie execute(AddMovieCommand command) {
         Movie movie = Movie.create(
-                command.getTitle(),
-                command.getYear(),
-                command.getGenre(),
-                command.getDuration(),
-                command.getDirector(),
-                command.getSynopsis(),
-                command.getNumberOfCopies()
+                new Title(command.getTitle()),
+                new Year(command.getYear()),
+                new Genre(command.getGenre()),
+                new Duration(command.getDuration()),
+                new Director(command.getDirector()),
+                new Synopsis(command.getSynopsis()),
+                new NumberOfCopies(command.getNumberOfCopies())
         );
 
         return movieRepository.save(movie);
