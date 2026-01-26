@@ -1,5 +1,6 @@
 package com.videostore.videostore.application.usecase.rental;
 
+import com.videostore.videostore.application.command.rental.ReturnMovieCommand;
 import com.videostore.videostore.domain.exception.RentalNotFoundException;
 import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.domain.repository.RentalRepository;
@@ -12,10 +13,10 @@ public class ReturnMovieUseCase {
         this.rentalRepository = rentalRepository;
     }
 
-    public void execute(Long userId, Long movieId) {
-        Rental rental = rentalRepository.findByUserIdAndMovieId(userId, movieId)
+    public void execute(ReturnMovieCommand returnMovieCommand) {
+        Rental rental = rentalRepository.findByUserIdAndMovieId(returnMovieCommand.getUserId(), returnMovieCommand.getMovieId())
                 .orElseThrow(() -> new RentalNotFoundException("User cannot return a movie they haven't rented"));
-        
-        rentalRepository.removeRental(rental);
+
+        rentalRepository.returnRental(rental);
     }
 }

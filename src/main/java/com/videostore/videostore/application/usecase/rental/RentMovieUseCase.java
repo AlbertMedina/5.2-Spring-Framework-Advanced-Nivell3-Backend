@@ -1,5 +1,6 @@
 package com.videostore.videostore.application.usecase.rental;
 
+import com.videostore.videostore.application.command.rental.RentMovieCommand;
 import com.videostore.videostore.domain.exception.*;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.rental.Rental;
@@ -23,9 +24,15 @@ public class RentMovieUseCase {
         this.movieRepository = movieRepository;
     }
 
-    public Rental execute(Long userId, Long movieId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException(userId));
-        Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(movieId));
+    public Rental execute(RentMovieCommand rentMovieCommand) {
+        Long userId = rentMovieCommand.getUserId();
+        Long movieId = rentMovieCommand.getMovieId();
+
+        User user = userRepository.findById(userId).
+                orElseThrow(() -> new UserNotFoundException(userId));
+
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new MovieNotFoundException(movieId));
 
         if (rentalRepository.existsByUserIdAndMovieId(userId, movieId)) {
             throw new MovieAlreadyRentedException(userId, movieId);
