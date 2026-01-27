@@ -1,18 +1,19 @@
 package com.videostore.videostore.domain.repository;
 
 import com.videostore.videostore.domain.model.favourite.Favourite;
-import com.videostore.videostore.domain.model.movie.Movie;
-import com.videostore.videostore.domain.model.user.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface FavouriteRepository {
 
-    List<Favourite> findByUser(Long userId);
+    Optional<Favourite> findByUserIdAndMovieId(Long userId, Long movieId);
 
-    boolean exists(User user, Movie movie);
+    boolean existsByUserIdAndMovieId(Long userId, Long movieId);
 
-    Favourite save(Favourite favourite);
+    List<Favourite> findAllByUser(Long userId);
 
-    void deleteById(Long id);
+    Favourite addFavourite(Favourite favourite);
+
+    void removeFavourite(Favourite favourite);
 }
