@@ -6,11 +6,14 @@ import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.review.Review;
 import com.videostore.videostore.domain.model.review.valueobject.Comment;
 import com.videostore.videostore.domain.model.review.valueobject.Rating;
+import com.videostore.videostore.domain.model.review.valueobject.ReviewDate;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.domain.repository.RentalRepository;
 import com.videostore.videostore.domain.repository.ReviewRepository;
 import com.videostore.videostore.domain.repository.UserRepository;
+
+import java.time.LocalDate;
 
 public class AddReviewUseCase {
 
@@ -44,6 +47,6 @@ public class AddReviewUseCase {
             throw new MovieAlreadyReviewedException(userId, movieId);
         }
 
-        return reviewRepository.addReview(new Review(user, movie, new Rating(addReviewCommand.rating()), new Comment(addReviewCommand.comment())));
+        return reviewRepository.addReview(new Review(user, movie, new Rating(addReviewCommand.rating()), new Comment(addReviewCommand.comment()), new ReviewDate(LocalDate.now())));
     }
 }
