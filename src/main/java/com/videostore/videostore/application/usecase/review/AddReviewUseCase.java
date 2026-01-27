@@ -33,8 +33,8 @@ public class AddReviewUseCase {
         Long userId = addReviewCommand.userId();
         Long movieId = addReviewCommand.movieId();
 
-        User user = userRepository.findById(userId).
-                orElseThrow(() -> new UserNotFoundException(userId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));

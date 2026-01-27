@@ -28,8 +28,8 @@ public class AddFavouriteUseCase {
         Long userId = addFavouriteCommand.userId();
         Long movieId = addFavouriteCommand.movieId();
 
-        User user = userRepository.findById(userId).
-                orElseThrow(() -> new UserNotFoundException(userId));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
 
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
