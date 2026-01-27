@@ -16,14 +16,18 @@ public class RemoveMovieUseCase {
         this.rentalRepository = rentalRepository;
     }
 
-    public void execute(Long id) {
-        Movie movie = movieRepository.findById(id).orElseThrow(() -> new MovieNotFoundException(id));
+    public void execute(Long movieId) {
+        Movie movie = movieRepository.findById(movieId)
+                .orElseThrow(() -> new MovieNotFoundException(movieId));
 
-        int activeRentals = rentalRepository.activeRentalsByMovie(id);
-        if (activeRentals > 0) {
-            throw new BusinessRuleViolationException("Cannot remove movie with active rentals");
-        }
+        validateMovieRemoval(movieId);
 
         movieRepository.removeMovie(movie);
+    }
+
+    private void validateMovieRemoval(Long movieId) {
+        if (rentalRepository.activeRentalsByMovie(movieId) > 0) {
+            throw new BusinessRuleViolationException("Cannot remove movie with active rentals");
+        }
     }
 }

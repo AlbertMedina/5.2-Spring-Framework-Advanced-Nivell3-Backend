@@ -34,10 +34,14 @@ public class AddFavouriteUseCase {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
 
+        validateFavourite(userId, movieId);
+
+        return favouriteRepository.addFavourite(new Favourite(user, movie, new FavouriteDate(LocalDate.now())));
+    }
+
+    private void validateFavourite(Long userId, Long movieId) {
         if (favouriteRepository.existsByUserIdAndMovieId(userId, movieId)) {
             throw new FavouriteAlreadyExistingException(userId, movieId);
         }
-
-        return favouriteRepository.addFavourite(new Favourite(user, movie, new FavouriteDate(LocalDate.now())));
     }
 }

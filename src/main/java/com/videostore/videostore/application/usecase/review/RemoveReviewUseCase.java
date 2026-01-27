@@ -12,8 +12,8 @@ public class RemoveReviewUseCase {
         this.reviewRepository = reviewRepository;
     }
 
-    public void execute(RemoveReviewCommand removeReviewCommand) {
-        Review review = reviewRepository.findByUserIdAndMovieId(removeReviewCommand.userId(), removeReviewCommand.movieId())
+    public void execute(RemoveReviewCommand command) {
+        Review review = reviewRepository.findByUserIdAndMovieId(command.userId(), command.movieId())
                 .orElseThrow(() -> new ReviewNotFoundException("User cannot remove a movie they haven't made"));
 
         reviewRepository.removeReview(review);

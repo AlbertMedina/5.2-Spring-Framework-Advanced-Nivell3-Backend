@@ -29,9 +29,9 @@ public class AddReviewUseCase {
         this.rentalRepository = rentalRepository;
     }
 
-    public Review execute(AddReviewCommand addReviewCommand) {
-        Long userId = addReviewCommand.userId();
-        Long movieId = addReviewCommand.movieId();
+    public Review execute(AddReviewCommand command) {
+        Long userId = command.userId();
+        Long movieId = command.movieId();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -39,6 +39,12 @@ public class AddReviewUseCase {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
 
+        validateReview(userId, movieId);
+
+        return reviewRepository.addReview(new Review(user, movie, new Rating(command.rating()), new Comment(command.comment()), new ReviewDate(LocalDate.now())));
+    }
+
+    private void validateReview(Long userId, Long movieId) {
         if (!rentalRepository.existsByUserIdAndMovieId(userId, movieId)) {
             throw new RentalNotFoundException("Users must have the movie rented to add a review");
         }
@@ -46,7 +52,5 @@ public class AddReviewUseCase {
         if (reviewRepository.existsByUserIdAndMovieId(userId, movieId)) {
             throw new MovieAlreadyReviewedException(userId, movieId);
         }
-
-        return reviewRepository.addReview(new Review(user, movie, new Rating(addReviewCommand.rating()), new Comment(addReviewCommand.comment()), new ReviewDate(LocalDate.now())));
     }
 }

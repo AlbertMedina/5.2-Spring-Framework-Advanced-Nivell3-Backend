@@ -13,8 +13,8 @@ public class RemoveFavouriteUseCase {
         this.favouriteRepository = favouriteRepository;
     }
 
-    public void execute(RemoveFavouriteCommand removeFavouriteCommand) {
-        Favourite favourite = favouriteRepository.findByUserIdAndMovieId(removeFavouriteCommand.userId(), removeFavouriteCommand.movieId())
+    public void execute(RemoveFavouriteCommand command) {
+        Favourite favourite = favouriteRepository.findByUserIdAndMovieId(command.userId(), command.movieId())
                 .orElseThrow(() -> new FavouriteNotFound("The user cannot remove a movie from favourites if it is not marked as a favourites"));
 
         favouriteRepository.removeFavourite(favourite);

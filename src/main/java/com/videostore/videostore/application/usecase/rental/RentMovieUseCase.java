@@ -24,9 +24,9 @@ public class RentMovieUseCase {
         this.movieRepository = movieRepository;
     }
 
-    public Rental execute(RentMovieCommand rentMovieCommand) {
-        Long userId = rentMovieCommand.userId();
-        Long movieId = rentMovieCommand.movieId();
+    public Rental execute(RentMovieCommand command) {
+        Long userId = command.userId();
+        Long movieId = command.movieId();
 
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException(userId));
@@ -34,6 +34,12 @@ public class RentMovieUseCase {
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
 
+        validateRental(userId, movieId, movie);
+
+        return rentalRepository.addRental(new Rental(user, movie, new RentalDate(LocalDate.now())));
+    }
+
+    private void validateRental(Long userId, Long movieId, Movie movie) {
         if (rentalRepository.existsByUserIdAndMovieId(userId, movieId)) {
             throw new MovieAlreadyRentedException(userId, movieId);
         }
@@ -41,7 +47,5 @@ public class RentMovieUseCase {
         if (rentalRepository.activeRentalsByMovie(movieId) >= movie.getNumberOfCopies().value()) {
             throw new MovieNotAvailableException(movieId);
         }
-
-        return rentalRepository.addRental(new Rental(user, movie, new RentalDate(LocalDate.now())));
     }
 }
