@@ -13,5 +13,7 @@ public interface MovieRepository {
 
     Movie addMovie(Movie movie);
 
+    Movie updateMovie(Movie movie);
+
     void removeMovie(Movie movie);
 }

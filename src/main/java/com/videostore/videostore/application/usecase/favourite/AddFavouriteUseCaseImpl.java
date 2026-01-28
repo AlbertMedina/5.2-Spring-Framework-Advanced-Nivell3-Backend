@@ -1,6 +1,7 @@
 package com.videostore.videostore.application.usecase.favourite;
 
 import com.videostore.videostore.application.command.favourite.AddFavouriteCommand;
+import com.videostore.videostore.application.port.in.favourite.AddFavouriteUseCase;
 import com.videostore.videostore.domain.exception.*;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.favourite.valueobject.FavouriteDate;
@@ -15,18 +16,19 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 @Service
-public class AddFavouriteUseCase {
+public class AddFavouriteUseCaseImpl implements AddFavouriteUseCase {
 
     private final FavouriteRepository favouriteRepository;
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
 
-    public AddFavouriteUseCase(FavouriteRepository favouriteRepository, MovieRepository movieRepository, UserRepository userRepository) {
+    public AddFavouriteUseCaseImpl(FavouriteRepository favouriteRepository, MovieRepository movieRepository, UserRepository userRepository) {
         this.favouriteRepository = favouriteRepository;
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
     }
 
+    @Override
     @Transactional
     public Favourite execute(AddFavouriteCommand addFavouriteCommand) {
         Long userId = addFavouriteCommand.userId();

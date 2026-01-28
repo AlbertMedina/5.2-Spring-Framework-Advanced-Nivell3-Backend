@@ -1,6 +1,7 @@
 package com.videostore.videostore.application.usecase.review;
 
 import com.videostore.videostore.application.command.review.AddReviewCommand;
+import com.videostore.videostore.application.port.in.review.AddReviewUseCase;
 import com.videostore.videostore.domain.exception.*;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.review.Review;
@@ -18,20 +19,21 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 
 @Service
-public class AddReviewUseCase {
+public class AddReviewUseCaseImpl implements AddReviewUseCase {
 
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final MovieRepository movieRepository;
     private final RentalRepository rentalRepository;
 
-    public AddReviewUseCase(ReviewRepository reviewRepository, MovieRepository movieRepository, UserRepository userRepository, RentalRepository rentalRepository) {
+    public AddReviewUseCaseImpl(ReviewRepository reviewRepository, MovieRepository movieRepository, UserRepository userRepository, RentalRepository rentalRepository) {
         this.reviewRepository = reviewRepository;
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
         this.rentalRepository = rentalRepository;
     }
 
+    @Override
     @Transactional
     public Review execute(AddReviewCommand command) {
         Long userId = command.userId();

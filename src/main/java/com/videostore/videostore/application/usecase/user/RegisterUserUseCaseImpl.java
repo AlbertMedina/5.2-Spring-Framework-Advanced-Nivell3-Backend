@@ -1,6 +1,7 @@
 package com.videostore.videostore.application.usecase.user;
 
 import com.videostore.videostore.application.command.user.RegisterUserCommand;
+import com.videostore.videostore.application.port.in.user.RegisterUserUseCase;
 import com.videostore.videostore.domain.exception.EmailAlreadyExistsException;
 import com.videostore.videostore.domain.exception.UsernameAlreadyExistsException;
 import com.videostore.videostore.domain.model.user.User;
@@ -10,14 +11,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-public class RegisterUserUseCase {
+public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
 
     private final UserRepository userRepository;
 
-    public RegisterUserUseCase(UserRepository userRepository) {
+    public RegisterUserUseCaseImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
+    @Override
     @Transactional
     public User execute(RegisterUserCommand command) {
         validateRegisterUser(command.username(), command.email());
