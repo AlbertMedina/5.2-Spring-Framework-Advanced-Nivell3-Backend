@@ -19,7 +19,7 @@ public interface RentalRepository {
 
     Rental addRental(Rental rental);
 
-    void returnRental(Rental rental);
+    void removeRental(Rental rental);
 
     void returnAllByUser(Long userId);
 }

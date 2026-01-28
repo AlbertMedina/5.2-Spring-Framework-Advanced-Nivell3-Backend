@@ -23,6 +23,6 @@ public class ReturnMovieUseCaseImpl implements ReturnMovieUseCase {
         Rental rental = rentalRepository.findByUserIdAndMovieId(command.userId(), command.movieId())
                 .orElseThrow(() -> new RentalNotFoundException("User cannot return a movie they haven't rented"));
 
-        rentalRepository.returnRental(rental);
+        rentalRepository.removeRental(rental);
     }
 }
