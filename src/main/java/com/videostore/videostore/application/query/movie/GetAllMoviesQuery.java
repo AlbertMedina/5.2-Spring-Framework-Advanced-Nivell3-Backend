@@ -1,4 +1,4 @@
-package com.videostore.videostore.application.port.in.movie.query;
+package com.videostore.videostore.application.query.movie;
 
 public record GetAllMoviesQuery(
         int page,
