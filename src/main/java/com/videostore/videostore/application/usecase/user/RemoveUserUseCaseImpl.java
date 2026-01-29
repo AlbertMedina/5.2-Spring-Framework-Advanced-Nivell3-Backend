@@ -25,10 +25,11 @@ public class RemoveUserUseCaseImpl implements RemoveUserUseCase {
     public void execute(Long userId) {
         UserId id = new UserId(userId);
 
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new UserNotFoundException(userId));
+        if (!userRepository.existsById(id)) {
+            throw new UserNotFoundException(userId);
+        }
 
         rentalRepository.returnAllByUser(id);
-        userRepository.removeUser(user);
+        userRepository.removeUser(id);
     }
 }

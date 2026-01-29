@@ -28,6 +28,11 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public boolean existsById(UserId id) {
+        return userRepositoryJPA.existsById(id.value());
+    }
+
+    @Override
     public Optional<User> findByUsername(Username username) {
         return userRepositoryJPA.findByUsername(username.value())
                 .map(UserMapper::toDomain);
@@ -57,9 +62,7 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public void removeUser(User user) {
-        UserEntity entity = UserMapper.toEntity(user);
-
-        userRepositoryJPA.delete(entity);
+    public void removeUser(UserId userId) {
+        userRepositoryJPA.deleteById(userId.value());
     }
 }

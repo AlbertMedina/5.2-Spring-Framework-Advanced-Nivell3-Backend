@@ -11,6 +11,8 @@ public interface UserRepository {
 
     Optional<User> findById(UserId id);
 
+    boolean existsById(UserId id);
+
     Optional<User> findByUsername(Username username);
 
     boolean existsByUsername(Username username);
@@ -21,5 +23,5 @@ public interface UserRepository {
 
     User registerUser(User user);
 
-    void removeUser(User user);
+    void removeUser(UserId userId);
 }
