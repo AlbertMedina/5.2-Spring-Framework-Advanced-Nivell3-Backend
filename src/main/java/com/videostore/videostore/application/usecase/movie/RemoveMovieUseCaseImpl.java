@@ -3,7 +3,6 @@ package com.videostore.videostore.application.usecase.movie;
 import com.videostore.videostore.application.port.in.movie.RemoveMovieUseCase;
 import com.videostore.videostore.domain.exception.BusinessRuleViolationException;
 import com.videostore.videostore.domain.exception.MovieNotFoundException;
-import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.domain.repository.RentalRepository;
@@ -26,12 +25,13 @@ public class RemoveMovieUseCaseImpl implements RemoveMovieUseCase {
     public void execute(Long movieId) {
         MovieId id = new MovieId(movieId);
 
-        Movie movie = movieRepository.findById(id)
-                .orElseThrow(() -> new MovieNotFoundException(movieId));
+        if (!movieRepository.existsById(id)) {
+            throw new MovieNotFoundException(movieId);
+        }
 
         validateMovieRemoval(id);
 
-        movieRepository.removeMovie(movie);
+        movieRepository.removeMovie(id);
     }
 
     private void validateMovieRemoval(MovieId movieId) {

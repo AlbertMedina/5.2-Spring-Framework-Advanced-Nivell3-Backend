@@ -2,7 +2,6 @@ package com.videostore.videostore.application.usecase.user;
 
 import com.videostore.videostore.application.port.in.user.RemoveUserUseCase;
 import com.videostore.videostore.domain.exception.UserNotFoundException;
-import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.domain.repository.RentalRepository;
 import com.videostore.videostore.domain.repository.UserRepository;
