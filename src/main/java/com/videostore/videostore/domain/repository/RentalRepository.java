@@ -17,7 +17,7 @@ public interface RentalRepository {
 
     List<Rental> findAllByMovie(MovieId movieId);
 
-    int activeRentalsByMovie(MovieId movieId);
+    int countRentalsByMovie(MovieId movieId);
 
     Rental addRental(Rental rental);
 

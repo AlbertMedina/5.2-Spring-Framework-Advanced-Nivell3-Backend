@@ -58,7 +58,7 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
             throw new MovieAlreadyRentedException(userId.value(), movieId.value());
         }
 
-        if (rentalRepository.activeRentalsByMovie(movieId) >= movie.getNumberOfCopies().value()) {
+        if (rentalRepository.countRentalsByMovie(movieId) >= movie.getNumberOfCopies().value()) {
             throw new MovieNotAvailableException(movieId.value());
         }
     }

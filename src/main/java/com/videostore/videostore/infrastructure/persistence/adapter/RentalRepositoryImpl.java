@@ -55,7 +55,7 @@ public class RentalRepositoryImpl implements RentalRepository {
     }
 
     @Override
-    public int activeRentalsByMovie(MovieId movieId) {
+    public int countRentalsByMovie(MovieId movieId) {
         return rentalRepositoryJPA.countByMovieId(movieId.value());
     }
 

@@ -35,7 +35,7 @@ public class RemoveMovieUseCaseImpl implements RemoveMovieUseCase {
     }
 
     private void validateMovieRemoval(MovieId movieId) {
-        if (rentalRepository.activeRentalsByMovie(movieId) > 0) {
+        if (rentalRepository.countRentalsByMovie(movieId) > 0) {
             throw new BusinessRuleViolationException("Cannot remove movie with active rentals");
         }
     }
