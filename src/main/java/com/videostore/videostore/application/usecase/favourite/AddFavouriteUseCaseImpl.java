@@ -45,6 +45,7 @@ public class AddFavouriteUseCaseImpl implements AddFavouriteUseCase {
         validateFavourite(userId, movieId);
 
         Favourite favourite = Favourite.create(
+                null,
                 user.getId(),
                 movie.getId(),
                 new FavouriteDate(LocalDate.now())

@@ -50,6 +50,7 @@ public class AddReviewUseCaseImpl implements AddReviewUseCase {
         validateReview(userId, movieId);
 
         Review review = Review.create(
+                null,
                 user.getId(),
                 movie.getId(),
                 new Rating(command.rating()),

@@ -45,6 +45,7 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
         validateRental(userId, movieId, movie);
 
         Rental rental = Rental.create(
+                null,
                 user.getId(),
                 movie.getId(),
                 new RentalDate(LocalDate.now())

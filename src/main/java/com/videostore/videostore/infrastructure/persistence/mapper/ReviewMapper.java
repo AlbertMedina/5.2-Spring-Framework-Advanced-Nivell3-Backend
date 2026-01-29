@@ -5,6 +5,7 @@ import com.videostore.videostore.domain.model.review.Review;
 import com.videostore.videostore.domain.model.review.valueobject.Comment;
 import com.videostore.videostore.domain.model.review.valueobject.Rating;
 import com.videostore.videostore.domain.model.review.valueobject.ReviewDate;
+import com.videostore.videostore.domain.model.review.valueobject.ReviewId;
 import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.infrastructure.persistence.entity.MovieEntity;
 import com.videostore.videostore.infrastructure.persistence.entity.ReviewEntity;
@@ -27,6 +28,7 @@ public final class ReviewMapper {
 
     public static Review toDomain(ReviewEntity entity) {
         return Review.create(
+                new ReviewId(entity.getId()),
                 new UserId(entity.getUser().getId()),
                 new MovieId(entity.getMovie().getId()),
                 new Rating(entity.getRating()),
