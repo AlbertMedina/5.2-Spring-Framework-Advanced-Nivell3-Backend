@@ -1,33 +1,33 @@
 package com.videostore.videostore.domain.model.review;
 
-import com.videostore.videostore.domain.model.movie.Movie;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.review.valueobject.Comment;
 import com.videostore.videostore.domain.model.review.valueobject.Rating;
 import com.videostore.videostore.domain.model.review.valueobject.ReviewDate;
-import com.videostore.videostore.domain.model.user.User;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 
 public class Review {
 
-    private final User user;
-    private final Movie movie;
+    private final UserId userId;
+    private final MovieId movieId;
     private final Rating rating;
     private final Comment comment;
     private final ReviewDate reviewDate;
 
-    public Review(User user, Movie movie, Rating rating, Comment comment, ReviewDate reviewDate) {
-        this.user = user;
-        this.movie = movie;
+    public Review(UserId userId, MovieId movieId, Rating rating, Comment comment, ReviewDate reviewDate) {
+        this.userId = userId;
+        this.movieId = movieId;
         this.rating = rating;
         this.comment = comment;
         this.reviewDate = reviewDate;
     }
 
-    public User getUser() {
-        return user;
+    public UserId getUserId() {
+        return userId;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public MovieId getMovieId() {
+        return movieId;
     }
 
     public Rating getRating() {
@@ -42,7 +42,7 @@ public class Review {
         return reviewDate;
     }
 
-    public static Review create(User user, Movie movie, Rating rating, Comment comment, ReviewDate reviewDate) {
-        return new Review(user, movie, rating, comment, reviewDate);
+    public static Review create(UserId userId, MovieId movieId, Rating rating, Comment comment, ReviewDate reviewDate) {
+        return new Review(userId, movieId, rating, comment, reviewDate);
     }
 }

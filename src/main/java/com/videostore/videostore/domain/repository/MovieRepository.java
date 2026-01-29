@@ -1,13 +1,14 @@
 package com.videostore.videostore.domain.repository;
 
 import com.videostore.videostore.domain.model.movie.Movie;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface MovieRepository {
 
-    Optional<Movie> findById(Long id);
+    Optional<Movie> findById(MovieId id);
 
     List<Movie> findAll(int page, int amount, String genre, boolean onlyAvailable);
 

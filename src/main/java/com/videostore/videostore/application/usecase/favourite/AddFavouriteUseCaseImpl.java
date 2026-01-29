@@ -6,7 +6,9 @@ import com.videostore.videostore.domain.exception.*;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.favourite.valueobject.FavouriteDate;
 import com.videostore.videostore.domain.model.movie.Movie;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.user.User;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.domain.repository.FavouriteRepository;
 import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.domain.repository.UserRepository;
@@ -34,17 +36,17 @@ public class AddFavouriteUseCaseImpl implements AddFavouriteUseCase {
         Long userId = addFavouriteCommand.userId();
         Long movieId = addFavouriteCommand.movieId();
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(new UserId(userId))
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        Movie movie = movieRepository.findById(movieId)
+        Movie movie = movieRepository.findById(new MovieId(movieId))
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
 
         validateFavourite(userId, movieId);
 
         Favourite favourite = Favourite.create(
-                user,
-                movie,
+                user.getId(),
+                movie.getId(),
                 new FavouriteDate(LocalDate.now())
         );
 
@@ -52,7 +54,7 @@ public class AddFavouriteUseCaseImpl implements AddFavouriteUseCase {
     }
 
     private void validateFavourite(Long userId, Long movieId) {
-        if (favouriteRepository.existsByUserIdAndMovieId(userId, movieId)) {
+        if (favouriteRepository.existsByUserIdAndMovieId(new UserId(userId), new MovieId(movieId))) {
             throw new FavouriteAlreadyExistingException(userId, movieId);
         }
     }

@@ -21,7 +21,7 @@ public class UpdateMovieInfoUseCaseImpl implements UpdateMovieInfoUseCase {
     @Override
     @Transactional
     public Movie execute(Long id, UpdateMovieInfoCommand command) {
-        Movie movie = movieRepository.findById(id)
+        Movie movie = movieRepository.findById(new MovieId(id))
                 .orElseThrow(() -> new MovieNotFoundException(id));
 
         movie.setTitle(new Title(command.title()));

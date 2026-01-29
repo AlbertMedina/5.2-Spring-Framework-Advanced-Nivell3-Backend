@@ -1,6 +1,7 @@
 package com.videostore.videostore.application.usecase.review;
 
 import com.videostore.videostore.application.port.in.review.GetReviewsByMovieUseCase;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.review.Review;
 import com.videostore.videostore.domain.repository.ReviewRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,6 @@ public class GetReviewsByMovieUseCaseImpl implements GetReviewsByMovieUseCase {
     @Override
     @Transactional(readOnly = true)
     public List<Review> execute(Long movieId) {
-        return reviewRepository.findAllByMovie(movieId);
+        return reviewRepository.findAllByMovie(new MovieId(movieId));
     }
 }

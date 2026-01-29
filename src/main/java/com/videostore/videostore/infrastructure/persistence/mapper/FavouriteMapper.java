@@ -2,6 +2,8 @@ package com.videostore.videostore.infrastructure.persistence.mapper;
 
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.favourite.valueobject.FavouriteDate;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.infrastructure.persistence.entity.FavouriteEntity;
 import com.videostore.videostore.infrastructure.persistence.entity.MovieEntity;
 import com.videostore.videostore.infrastructure.persistence.entity.UserEntity;
@@ -21,8 +23,8 @@ public final class FavouriteMapper {
 
     public static Favourite toDomain(FavouriteEntity entity) {
         return Favourite.create(
-                UserMapper.toDomain(entity.getUser()),
-                MovieMapper.toDomain(entity.getMovie()),
+                new UserId(entity.getUser().getId()),
+                new MovieId(entity.getMovie().getId()),
                 new FavouriteDate(entity.getFavouriteDate())
         );
     }

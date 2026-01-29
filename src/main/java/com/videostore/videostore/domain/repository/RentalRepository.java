@@ -1,25 +1,27 @@
 package com.videostore.videostore.domain.repository;
 
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.rental.Rental;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface RentalRepository {
 
-    Optional<Rental> findByUserIdAndMovieId(Long userId, Long movieId);
+    Optional<Rental> findByUserIdAndMovieId(UserId userId, MovieId movieId);
 
-    boolean existsByUserIdAndMovieId(Long userId, Long movieId);
+    boolean existsByUserIdAndMovieId(UserId userId, MovieId movieId);
 
-    List<Rental> findAllByUser(Long userId);
+    List<Rental> findAllByUser(UserId userId);
 
-    List<Rental> findAllByMovie(Long movieId);
+    List<Rental> findAllByMovie(MovieId movieId);
 
-    int activeRentalsByMovie(Long movieId);
+    int activeRentalsByMovie(MovieId movieId);
 
     Rental addRental(Rental rental);
 
     void removeRental(Rental rental);
 
-    void returnAllByUser(Long userId);
+    void returnAllByUser(UserId userId);
 }

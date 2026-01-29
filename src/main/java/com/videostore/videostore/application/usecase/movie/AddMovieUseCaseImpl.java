@@ -21,6 +21,7 @@ public class AddMovieUseCaseImpl implements AddMovieUseCase {
     @Transactional
     public Movie execute(AddMovieCommand command) {
         Movie movie = Movie.create(
+                null,
                 new Title(command.title()),
                 new Year(command.year()),
                 new Genre(command.genre()),

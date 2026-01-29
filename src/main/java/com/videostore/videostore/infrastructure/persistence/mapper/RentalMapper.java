@@ -1,7 +1,9 @@
 package com.videostore.videostore.infrastructure.persistence.mapper;
 
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.domain.model.rental.valueobject.RentalDate;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.infrastructure.persistence.entity.MovieEntity;
 import com.videostore.videostore.infrastructure.persistence.entity.RentalEntity;
 import com.videostore.videostore.infrastructure.persistence.entity.UserEntity;
@@ -21,8 +23,8 @@ public final class RentalMapper {
 
     public static Rental toDomain(RentalEntity entity) {
         return Rental.create(
-                UserMapper.toDomain(entity.getUser()),
-                MovieMapper.toDomain(entity.getMovie()),
+                new UserId(entity.getUser().getId()),
+                new MovieId(entity.getMovie().getId()),
                 new RentalDate(entity.getRentalDate())
         );
     }

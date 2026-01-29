@@ -23,6 +23,7 @@ public final class MovieMapper {
 
     public static Movie toDomain(MovieEntity entity) {
         return Movie.create(
+                new MovieId(entity.getId()),
                 new Title(entity.getTitle()),
                 new Year(entity.getYear()),
                 new Genre(entity.getGenre()),

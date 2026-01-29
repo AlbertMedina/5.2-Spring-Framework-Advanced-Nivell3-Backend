@@ -1,34 +1,34 @@
 package com.videostore.videostore.domain.model.favourite;
 
 import com.videostore.videostore.domain.model.favourite.valueobject.FavouriteDate;
-import com.videostore.videostore.domain.model.movie.Movie;
-import com.videostore.videostore.domain.model.user.User;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 
 public class Favourite {
 
-    private final User user;
-    private final Movie movie;
+    private final UserId userId;
+    private final MovieId movieId;
     private final FavouriteDate favouriteDate;
 
-    public Favourite(User user, Movie movie, FavouriteDate favouriteDate) {
-        this.user = user;
-        this.movie = movie;
+    public Favourite(UserId userId, MovieId movieId, FavouriteDate favouriteDate) {
+        this.userId = userId;
+        this.movieId = movieId;
         this.favouriteDate = favouriteDate;
     }
 
-    public User getUser() {
-        return user;
+    public UserId getUserId() {
+        return userId;
     }
 
-    public Movie getMovie() {
-        return movie;
+    public MovieId getMovieId() {
+        return movieId;
     }
 
     public FavouriteDate getFavouriteDate() {
         return favouriteDate;
     }
 
-    public static Favourite create(User user, Movie movie, FavouriteDate favouriteDate) {
-        return new Favourite(user, movie, favouriteDate);
+    public static Favourite create(UserId userId, MovieId movieId, FavouriteDate favouriteDate) {
+        return new Favourite(userId, movieId, favouriteDate);
     }
 }

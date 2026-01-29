@@ -1,6 +1,7 @@
 package com.videostore.videostore.application.usecase.rental;
 
 import com.videostore.videostore.application.port.in.rental.GetRentalsByMovieUseCase;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.domain.repository.RentalRepository;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,6 @@ public class GetRentalsByMovieUseCaseImpl implements GetRentalsByMovieUseCase {
     @Override
     @Transactional(readOnly = true)
     public List<Rental> execute(Long movieId) {
-        return rentalRepository.findAllByMovie(movieId);
+        return rentalRepository.findAllByMovie(new MovieId(movieId));
     }
 }

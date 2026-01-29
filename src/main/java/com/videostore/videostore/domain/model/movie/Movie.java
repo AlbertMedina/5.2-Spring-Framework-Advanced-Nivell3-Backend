@@ -4,6 +4,7 @@ import com.videostore.videostore.domain.model.movie.valueobject.*;
 
 public class Movie {
 
+    private final MovieId id;
     private Title title;
     private Year year;
     private Genre genre;
@@ -12,7 +13,8 @@ public class Movie {
     private Synopsis synopsis;
     private final NumberOfCopies numberOfCopies;
 
-    public Movie(Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
+    public Movie(MovieId id, Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
+        this.id = id;
         this.title = title;
         this.year = year;
         this.genre = genre;
@@ -20,6 +22,10 @@ public class Movie {
         this.director = director;
         this.synopsis = synopsis;
         this.numberOfCopies = numberOfCopies;
+    }
+
+    public MovieId getId() {
+        return id;
     }
 
     public Title getTitle() {
@@ -74,7 +80,7 @@ public class Movie {
         return numberOfCopies;
     }
 
-    public static Movie create(Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
-        return new Movie(title, year, genre, duration, director, synopsis, numberOfCopies);
+    public static Movie create(MovieId id, Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
+        return new Movie(id, title, year, genre, duration, director, synopsis, numberOfCopies);
     }
 }

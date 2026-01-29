@@ -25,6 +25,7 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
         validateRegisterUser(command.username(), command.email());
 
         User user = User.create(
+                null,
                 new Name(command.name()),
                 new Surname(command.surname()),
                 new Username(command.username()),

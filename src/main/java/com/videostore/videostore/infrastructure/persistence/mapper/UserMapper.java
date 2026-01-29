@@ -21,6 +21,7 @@ public final class UserMapper {
 
     public static User toDomain(UserEntity entity) {
         return User.create(
+                new UserId(entity.getId()),
                 new Name(entity.getName()),
                 new Surname(entity.getSurname()),
                 new Username(entity.getUsername()),

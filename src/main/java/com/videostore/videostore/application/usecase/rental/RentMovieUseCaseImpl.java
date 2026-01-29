@@ -4,9 +4,11 @@ import com.videostore.videostore.application.command.rental.RentMovieCommand;
 import com.videostore.videostore.application.port.in.rental.RentMovieUseCase;
 import com.videostore.videostore.domain.exception.*;
 import com.videostore.videostore.domain.model.movie.Movie;
+import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.domain.model.rental.valueobject.RentalDate;
 import com.videostore.videostore.domain.model.user.User;
+import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.domain.repository.RentalRepository;
 import com.videostore.videostore.domain.repository.UserRepository;
@@ -34,17 +36,17 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
         Long userId = command.userId();
         Long movieId = command.movieId();
 
-        User user = userRepository.findById(userId)
+        User user = userRepository.findById(new UserId(userId))
                 .orElseThrow(() -> new UserNotFoundException(userId));
 
-        Movie movie = movieRepository.findById(movieId)
+        Movie movie = movieRepository.findById(new MovieId(movieId))
                 .orElseThrow(() -> new MovieNotFoundException(movieId));
 
         validateRental(userId, movieId, movie);
 
         Rental rental = Rental.create(
-                user,
-                movie,
+                user.getId(),
+                movie.getId(),
                 new RentalDate(LocalDate.now())
         );
 
@@ -52,11 +54,11 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
     }
 
     private void validateRental(Long userId, Long movieId, Movie movie) {
-        if (rentalRepository.existsByUserIdAndMovieId(userId, movieId)) {
+        if (rentalRepository.existsByUserIdAndMovieId(new UserId(userId), new MovieId(movieId))) {
             throw new MovieAlreadyRentedException(userId, movieId);
         }
 
-        if (rentalRepository.activeRentalsByMovie(movieId) >= movie.getNumberOfCopies().value()) {
+        if (rentalRepository.activeRentalsByMovie(new MovieId(movieId)) >= movie.getNumberOfCopies().value()) {
             throw new MovieNotAvailableException(movieId);
         }
     }
