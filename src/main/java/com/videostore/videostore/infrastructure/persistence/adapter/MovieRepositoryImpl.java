@@ -7,7 +7,7 @@ import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.infrastructure.persistence.entity.MovieEntity;
 import com.videostore.videostore.infrastructure.persistence.mapper.MovieMapper;
 import com.videostore.videostore.infrastructure.persistence.repository.MovieRepositoryJPA;
-import com.videostore.videostore.infrastructure.persistence.specification.MovieSpecifications;
+import com.videostore.videostore.infrastructure.persistence.specification.movie.MovieSpecifications;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;

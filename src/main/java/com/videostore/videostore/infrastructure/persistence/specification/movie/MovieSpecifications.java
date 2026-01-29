@@ -1,4 +1,4 @@
-package com.videostore.videostore.infrastructure.persistence.specification;
+package com.videostore.videostore.infrastructure.persistence.specification.movie;
 
 import com.videostore.videostore.domain.model.movie.MovieSortBy;
 import com.videostore.videostore.infrastructure.persistence.entity.MovieEntity;
