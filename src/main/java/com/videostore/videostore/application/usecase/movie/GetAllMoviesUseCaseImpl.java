@@ -24,7 +24,10 @@ public class GetAllMoviesUseCaseImpl implements GetAllMoviesUseCase {
         return movieRepository.findAll(getAllMoviesQuery.page(),
                 getAllMoviesQuery.amount(),
                 getAllMoviesQuery.genre(),
-                getAllMoviesQuery.onlyAvailable()
+                getAllMoviesQuery.onlyAvailable(),
+                getAllMoviesQuery.title(),
+                getAllMoviesQuery.sortBy(),
+                getAllMoviesQuery.ascending()
         );
     }
 }

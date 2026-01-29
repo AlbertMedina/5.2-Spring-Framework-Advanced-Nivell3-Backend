@@ -4,6 +4,9 @@ public record GetAllMoviesQuery(
         int page,
         int amount,
         String genre,
-        boolean onlyAvailable
+        boolean onlyAvailable,
+        String title,
+        String sortBy,
+        boolean ascending
 ) {
 }

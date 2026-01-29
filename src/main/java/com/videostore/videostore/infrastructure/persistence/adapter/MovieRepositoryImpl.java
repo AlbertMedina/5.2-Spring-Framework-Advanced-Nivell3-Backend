@@ -6,6 +6,11 @@ import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.infrastructure.persistence.entity.MovieEntity;
 import com.videostore.videostore.infrastructure.persistence.mapper.MovieMapper;
 import com.videostore.videostore.infrastructure.persistence.repository.MovieRepositoryJPA;
+import com.videostore.videostore.infrastructure.persistence.specification.MovieSpecifications;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +35,22 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
-    public List<Movie> findAll(int page, int amount, String genre, boolean onlyAvailable) {
-        return List.of();
+    public List<Movie> findAll(int page, int amount, String genre, boolean onlyAvailable, String title, String sortBy, boolean ascending) {
+        Specification<MovieEntity> spec = MovieSpecifications.genreEquals(genre)
+                .and(MovieSpecifications.titleContains(title))
+                .and(MovieSpecifications.onlyAvailable(onlyAvailable));
+
+        Sort sort = Sort.unsorted();
+        if (sortBy != null && !sortBy.isBlank()) {
+            sort = ascending ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+        }
+
+        Pageable pageable = PageRequest.of(page, amount, sort);
+
+        return movieRepositoryJPA.findAll(spec, pageable)
+                .stream()
+                .map(MovieMapper::toDomain)
+                .toList();
     }
 
     @Override

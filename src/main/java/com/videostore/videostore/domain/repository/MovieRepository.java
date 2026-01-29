@@ -12,7 +12,7 @@ public interface MovieRepository {
 
     boolean existsById(MovieId id);
 
-    List<Movie> findAll(int page, int amount, String genre, boolean onlyAvailable);
+    List<Movie> findAll(int page, int amount, String genre, boolean onlyAvailable, String title, String sortBy, boolean ascending);
 
     Movie addMovie(Movie movie);
 
