@@ -27,11 +27,11 @@ public class FavouriteController {
         Favourite favourite = addFavouriteUseCase.execute(command);
 
         FavouriteResponse response = FavouriteResponse.fromDomain(favourite);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(201).body(response);
     }
 
-    @DeleteMapping("/favourites")
-    public ResponseEntity<Void> removeFavourite(@RequestParam Long userId, @RequestParam Long movieId) {
+    @DeleteMapping("/favourites/{userId}/{movieId}")
+    public ResponseEntity<Void> removeFavourite(@PathVariable Long userId, @PathVariable Long movieId) {
         RemoveFavouriteCommand command = new RemoveFavouriteCommand(userId, movieId);
         removeFavouriteUseCase.execute(command);
         return ResponseEntity.noContent().build();
