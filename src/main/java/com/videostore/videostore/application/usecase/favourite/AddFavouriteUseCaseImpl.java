@@ -2,7 +2,9 @@ package com.videostore.videostore.application.usecase.favourite;
 
 import com.videostore.videostore.application.command.favourite.AddFavouriteCommand;
 import com.videostore.videostore.application.port.in.favourite.AddFavouriteUseCase;
-import com.videostore.videostore.domain.exception.*;
+import com.videostore.videostore.domain.exception.conflict.FavouriteAlreadyExistsException;
+import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.UserNotFoundException;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.favourite.valueobject.FavouriteDate;
 import com.videostore.videostore.domain.model.movie.Movie;
@@ -56,7 +58,7 @@ public class AddFavouriteUseCaseImpl implements AddFavouriteUseCase {
 
     private void validateFavourite(UserId userId, MovieId movieId) {
         if (favouriteRepository.existsByUserIdAndMovieId(userId, movieId)) {
-            throw new FavouriteAlreadyExistingException(userId.value(), movieId.value());
+            throw new FavouriteAlreadyExistsException(userId.value(), movieId.value());
         }
     }
 }

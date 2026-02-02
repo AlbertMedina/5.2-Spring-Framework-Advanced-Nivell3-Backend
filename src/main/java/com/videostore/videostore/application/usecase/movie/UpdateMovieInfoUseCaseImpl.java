@@ -2,7 +2,7 @@ package com.videostore.videostore.application.usecase.movie;
 
 import com.videostore.videostore.application.command.movie.UpdateMovieInfoCommand;
 import com.videostore.videostore.application.port.in.movie.UpdateMovieInfoUseCase;
-import com.videostore.videostore.domain.exception.MovieNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.movie.valueobject.*;
 import com.videostore.videostore.domain.repository.MovieRepository;

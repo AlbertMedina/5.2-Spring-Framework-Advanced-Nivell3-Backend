@@ -2,7 +2,7 @@ package com.videostore.videostore.application.usecase.favourite;
 
 import com.videostore.videostore.application.command.favourite.RemoveFavouriteCommand;
 import com.videostore.videostore.application.port.in.favourite.RemoveFavouriteUseCase;
-import com.videostore.videostore.domain.exception.FavouriteNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.FavouriteNotFoundException;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.user.valueobject.UserId;

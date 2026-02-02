@@ -1,7 +1,7 @@
 package com.videostore.videostore.infrastructure.persistence.adapter;
 
-import com.videostore.videostore.domain.exception.MovieNotFoundException;
-import com.videostore.videostore.domain.exception.UserNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.UserNotFoundException;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.favourite.valueobject.FavouriteId;
 import com.videostore.videostore.domain.model.movie.valueobject.MovieId;

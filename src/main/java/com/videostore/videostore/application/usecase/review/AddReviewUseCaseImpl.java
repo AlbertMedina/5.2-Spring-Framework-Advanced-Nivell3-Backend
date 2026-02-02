@@ -2,7 +2,10 @@ package com.videostore.videostore.application.usecase.review;
 
 import com.videostore.videostore.application.command.review.AddReviewCommand;
 import com.videostore.videostore.application.port.in.review.AddReviewUseCase;
-import com.videostore.videostore.domain.exception.*;
+import com.videostore.videostore.domain.exception.conflict.MovieAlreadyReviewedException;
+import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.RentalNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.UserNotFoundException;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.review.Review;

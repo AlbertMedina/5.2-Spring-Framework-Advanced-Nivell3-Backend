@@ -2,7 +2,10 @@ package com.videostore.videostore.application.usecase.rental;
 
 import com.videostore.videostore.application.command.rental.RentMovieCommand;
 import com.videostore.videostore.application.port.in.rental.RentMovieUseCase;
-import com.videostore.videostore.domain.exception.*;
+import com.videostore.videostore.domain.exception.conflict.MovieAlreadyRentedException;
+import com.videostore.videostore.domain.exception.conflict.MovieNotAvailableException;
+import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
+import com.videostore.videostore.domain.exception.notfound.UserNotFoundException;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
 import com.videostore.videostore.domain.model.rental.Rental;
