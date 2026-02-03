@@ -24,7 +24,11 @@ public class ReviewController {
     private final RemoveReviewUseCase removeReviewUseCase;
     private final GetReviewsByMovieUseCase getReviewsByMovieUseCase;
 
-    public ReviewController(AddReviewUseCase addReviewUseCase, RemoveReviewUseCase removeReviewUseCase, GetReviewsByMovieUseCase getReviewsByMovieUseCase) {
+    public ReviewController(
+            AddReviewUseCase addReviewUseCase,
+            RemoveReviewUseCase removeReviewUseCase,
+            GetReviewsByMovieUseCase getReviewsByMovieUseCase
+    ) {
         this.addReviewUseCase = addReviewUseCase;
         this.removeReviewUseCase = removeReviewUseCase;
         this.getReviewsByMovieUseCase = getReviewsByMovieUseCase;

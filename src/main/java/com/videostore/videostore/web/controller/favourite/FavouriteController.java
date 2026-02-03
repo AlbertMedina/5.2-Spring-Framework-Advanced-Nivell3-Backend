@@ -24,7 +24,11 @@ public class FavouriteController {
     private final RemoveFavouriteUseCase removeFavouriteUseCase;
     private final GetFavouritesByUserUseCase getFavouritesByUserUseCase;
 
-    public FavouriteController(AddFavouriteUseCase addFavouriteUseCase, RemoveFavouriteUseCase removeFavouriteUseCase, GetFavouritesByUserUseCase getFavouritesByUserUseCase) {
+    public FavouriteController(
+            AddFavouriteUseCase addFavouriteUseCase,
+            RemoveFavouriteUseCase removeFavouriteUseCase,
+            GetFavouritesByUserUseCase getFavouritesByUserUseCase
+    ) {
         this.addFavouriteUseCase = addFavouriteUseCase;
         this.removeFavouriteUseCase = removeFavouriteUseCase;
         this.getFavouritesByUserUseCase = getFavouritesByUserUseCase;

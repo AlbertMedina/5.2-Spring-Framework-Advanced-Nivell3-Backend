@@ -27,7 +27,13 @@ public class MovieController {
     private final GetMovieUseCase getMovieUseCase;
     private final GetAllMoviesUseCase getAllMoviesUseCase;
 
-    public MovieController(AddMovieUseCase addMovieUseCase, UpdateMovieInfoUseCase updateMovieInfoUseCase, RemoveMovieUseCase removeMovieUseCase, GetMovieUseCase getMovieUseCase, GetAllMoviesUseCase getAllMoviesUseCase) {
+    public MovieController(
+            AddMovieUseCase addMovieUseCase,
+            UpdateMovieInfoUseCase updateMovieInfoUseCase,
+            RemoveMovieUseCase removeMovieUseCase,
+            GetMovieUseCase getMovieUseCase,
+            GetAllMoviesUseCase getAllMoviesUseCase
+    ) {
         this.addMovieUseCase = addMovieUseCase;
         this.updateMovieInfoUseCase = updateMovieInfoUseCase;
         this.removeMovieUseCase = removeMovieUseCase;
@@ -37,7 +43,15 @@ public class MovieController {
 
     @PostMapping("/movies")
     public ResponseEntity<MovieResponse> addMovie(@RequestBody @Valid AddMovieRequest request) {
-        AddMovieCommand command = new AddMovieCommand(request.title(), request.year(), request.genre(), request.duration(), request.director(), request.synopsis(), request.numberOfCopies());
+        AddMovieCommand command = new AddMovieCommand(
+                request.title(),
+                request.year(),
+                request.genre(),
+                request.duration(),
+                request.director(),
+                request.synopsis(),
+                request.numberOfCopies()
+        );
         Movie movie = addMovieUseCase.execute(command);
 
         MovieResponse response = MovieResponse.fromDomain(movie);
@@ -46,7 +60,14 @@ public class MovieController {
 
     @PutMapping("/movies/{movieId}")
     public ResponseEntity<MovieResponse> updateMovieInfo(@PathVariable @Positive Long movieId, @RequestBody @Valid UpdateMovieInfoRequest request) {
-        UpdateMovieInfoCommand command = new UpdateMovieInfoCommand(request.title(), request.year(), request.genre(), request.duration(), request.director(), request.synopsis());
+        UpdateMovieInfoCommand command = new UpdateMovieInfoCommand(
+                request.title(),
+                request.year(),
+                request.genre(),
+                request.duration(),
+                request.director(),
+                request.synopsis()
+        );
         Movie movie = updateMovieInfoUseCase.execute(movieId, command);
 
         MovieResponse response = MovieResponse.fromDomain(movie);
@@ -69,7 +90,14 @@ public class MovieController {
     }
 
     @GetMapping("/movies")
-    public ResponseEntity<List<MovieResponse>> getAllMovies(@RequestParam int page, @RequestParam int size, @RequestParam(required = false) String genre, @RequestParam(defaultValue = "false") boolean onlyAvailable, @RequestParam(required = false) String title, @RequestParam MovieSortBy sortBy, @RequestParam(defaultValue = "true") boolean ascending) {
+    public ResponseEntity<List<MovieResponse>> getAllMovies(@RequestParam int page,
+                                                            @RequestParam int size,
+                                                            @RequestParam(required = false) String genre,
+                                                            @RequestParam(defaultValue = "false") boolean onlyAvailable,
+                                                            @RequestParam(required = false) String title,
+                                                            @RequestParam MovieSortBy sortBy,
+                                                            @RequestParam(defaultValue = "true") boolean ascending) {
+
         GetAllMoviesQuery getAllMovieQuery = new GetAllMoviesQuery(page, size, genre, onlyAvailable, title, sortBy, ascending);
         List<MovieResponse> response = getAllMoviesUseCase.execute(getAllMovieQuery)
                 .stream().map(MovieResponse::fromDomain).toList();

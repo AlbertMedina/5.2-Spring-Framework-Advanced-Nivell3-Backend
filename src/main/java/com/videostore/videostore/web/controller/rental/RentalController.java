@@ -26,7 +26,12 @@ public class RentalController {
     private final GetRentalsByUserUseCase getRentalsByUserUseCase;
     private final GetRentalsByMovieUseCase getRentalsByMovieUseCase;
 
-    public RentalController(RentMovieUseCase rentMovieUseCase, ReturnMovieUseCase returnMovieUseCase, GetRentalsByUserUseCase getRentalsByUserUseCase, GetRentalsByMovieUseCase getRentalsByMovieUseCase) {
+    public RentalController(
+            RentMovieUseCase rentMovieUseCase,
+            ReturnMovieUseCase returnMovieUseCase,
+            GetRentalsByUserUseCase getRentalsByUserUseCase,
+            GetRentalsByMovieUseCase getRentalsByMovieUseCase
+    ) {
         this.rentMovieUseCase = rentMovieUseCase;
         this.returnMovieUseCase = returnMovieUseCase;
         this.getRentalsByUserUseCase = getRentalsByUserUseCase;
@@ -46,7 +51,7 @@ public class RentalController {
     public ResponseEntity<Void> returnMovie(@PathVariable @Positive Long userId, @PathVariable @Positive Long movieId) {
         ReturnMovieCommand command = new ReturnMovieCommand(userId, movieId);
         returnMovieUseCase.execute(command);
-        
+
         return ResponseEntity.noContent().build();
     }
 
