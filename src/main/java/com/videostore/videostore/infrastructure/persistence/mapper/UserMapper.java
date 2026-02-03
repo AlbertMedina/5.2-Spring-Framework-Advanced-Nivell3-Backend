@@ -1,5 +1,6 @@
 package com.videostore.videostore.infrastructure.persistence.mapper;
 
+import com.videostore.videostore.domain.model.user.Role;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.*;
 import com.videostore.videostore.infrastructure.persistence.entity.UserEntity;
@@ -15,7 +16,8 @@ public final class UserMapper {
                 user.getSurname().value(),
                 user.getUsername().value(),
                 user.getEmail().value(),
-                user.getPassword().value()
+                user.getPassword().value(),
+                user.getRole()
         );
     }
 
@@ -26,7 +28,8 @@ public final class UserMapper {
                 new Surname(entity.getSurname()),
                 new Username(entity.getUsername()),
                 new Email(entity.getEmail()),
-                new Password(entity.getPassword())
+                new Password(entity.getPassword()),
+                entity.getRole()
         );
     }
 }

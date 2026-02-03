@@ -10,14 +10,16 @@ public class User {
     private final Username username;
     private final Email email;
     private final Password password;
+    private final Role role;
 
-    private User(UserId id, Name name, Surname surname, Username username, Email email, Password password) {
+    private User(UserId id, Name name, Surname surname, Username username, Email email, Password password, Role role) {
         this.id = id;
         this.name = name;
         this.surname = surname;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public UserId getId() {
@@ -44,7 +46,11 @@ public class User {
         return password;
     }
 
-    public static User create(UserId id, Name name, Surname surname, Username username, Email email, Password password) {
-        return new User(id, name, surname, username, email, password);
+    public Role getRole() {
+        return role;
+    }
+
+    public static User create(UserId id, Name name, Surname surname, Username username, Email email, Password password, Role role) {
+        return new User(id, name, surname, username, email, password, role);
     }
 }

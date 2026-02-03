@@ -4,6 +4,7 @@ import com.videostore.videostore.application.command.user.RegisterUserCommand;
 import com.videostore.videostore.application.port.in.user.RegisterUserUseCase;
 import com.videostore.videostore.domain.exception.conflict.EmailAlreadyExistsException;
 import com.videostore.videostore.domain.exception.conflict.UsernameAlreadyExistsException;
+import com.videostore.videostore.domain.model.user.Role;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.*;
 import com.videostore.videostore.domain.repository.UserRepository;
@@ -33,7 +34,8 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
                 new Surname(command.surname()),
                 username,
                 email,
-                new Password(command.password())
+                new Password(command.password()),
+                Role.USER
         );
 
         return userRepository.registerUser(user);
