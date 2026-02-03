@@ -5,11 +5,14 @@ import com.videostore.videostore.domain.model.user.valueobject.Email;
 import com.videostore.videostore.domain.model.user.valueobject.UserId;
 import com.videostore.videostore.domain.model.user.valueobject.Username;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository {
 
     Optional<User> findById(UserId id);
+
+    List<User> findAll();
 
     boolean existsById(UserId id);
 

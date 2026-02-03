@@ -10,6 +10,7 @@ import com.videostore.videostore.infrastructure.persistence.mapper.UserMapper;
 import com.videostore.videostore.infrastructure.persistence.repository.UserRepositoryJPA;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -25,6 +26,12 @@ public class UserRepositoryImpl implements UserRepository {
     public Optional<User> findById(UserId id) {
         return userRepositoryJPA.findById(id.value())
                 .map(UserMapper::toDomain);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepositoryJPA.findAll()
+                .stream().map(UserMapper::toDomain).toList();
     }
 
     @Override
