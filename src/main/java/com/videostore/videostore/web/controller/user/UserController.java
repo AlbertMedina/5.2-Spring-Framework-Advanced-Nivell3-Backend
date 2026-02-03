@@ -4,7 +4,6 @@ import com.videostore.videostore.application.command.user.LoginUserCommand;
 import com.videostore.videostore.application.command.user.RegisterUserCommand;
 import com.videostore.videostore.application.port.in.user.*;
 import com.videostore.videostore.domain.model.user.User;
-import com.videostore.videostore.web.controller.rental.dto.response.RentalResponse;
 import com.videostore.videostore.web.controller.user.dto.request.LoginUserRequest;
 import com.videostore.videostore.web.controller.user.dto.request.RegisterUserRequest;
 import com.videostore.videostore.web.controller.user.dto.response.UserResponse;
