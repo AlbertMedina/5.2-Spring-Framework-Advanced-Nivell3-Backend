@@ -12,6 +12,7 @@ import com.videostore.videostore.web.controller.user.dto.response.UserResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,18 +60,6 @@ public class UserController {
         return ResponseEntity.status(201).body(response);
     }
 
-    /*@PostMapping("/auth/login")
-    public ResponseEntity<UserResponse> loginUser(@RequestBody @Valid LoginUserRequest request) {
-        LoginUserCommand command = new LoginUserCommand(
-                request.loginIdentifier(),
-                request.password()
-        );
-        User user = loginUserUseCase.execute(command);
-
-        UserResponse response = UserResponse.fromDomain(user);
-        return ResponseEntity.ok(response);
-    }*/
-
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody @Valid LoginUserRequest request) {
         LoginUserCommand command = new LoginUserCommand(
@@ -84,6 +73,7 @@ public class UserController {
     }
 
     @DeleteMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> removeUser(@PathVariable @Positive Long userId) {
         removeUserUseCase.execute(userId);
 
@@ -91,6 +81,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResponse> getUser(@PathVariable @Positive Long userId) {
         User user = getUserUseCase.execute(userId);
 
@@ -99,6 +90,7 @@ public class UserController {
     }
 
     @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         List<UserResponse> response = getAllUsersUseCase.execute()
                 .stream().map(UserResponse::fromDomain).toList();

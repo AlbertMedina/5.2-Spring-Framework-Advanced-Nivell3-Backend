@@ -12,6 +12,7 @@ import com.videostore.videostore.web.controller.rental.dto.response.RentalRespon
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -56,6 +57,7 @@ public class RentalController {
     }
 
     @GetMapping("/users/{userId}/rentals")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<RentalResponse>> getRentalsByUser(@PathVariable @Positive Long userId) {
         List<RentalResponse> response = getRentalsByUserUseCase.execute(userId)
                 .stream().map(RentalResponse::fromDomain).toList();
@@ -64,6 +66,7 @@ public class RentalController {
     }
 
     @GetMapping("/movies/{movieId}/rentals")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<RentalResponse>> getRentalsByMovie(@PathVariable @Positive Long movieId) {
         List<RentalResponse> response = getRentalsByMovieUseCase.execute(movieId)
                 .stream().map(RentalResponse::fromDomain).toList();

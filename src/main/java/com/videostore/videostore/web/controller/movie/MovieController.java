@@ -12,6 +12,7 @@ import com.videostore.videostore.web.controller.movie.dto.response.MovieResponse
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,7 @@ public class MovieController {
     }
 
     @PostMapping("/movies")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MovieResponse> addMovie(@RequestBody @Valid AddMovieRequest request) {
         AddMovieCommand command = new AddMovieCommand(
                 request.title(),
@@ -59,6 +61,7 @@ public class MovieController {
     }
 
     @PutMapping("/movies/{movieId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MovieResponse> updateMovieInfo(@PathVariable @Positive Long movieId, @RequestBody @Valid UpdateMovieInfoRequest request) {
         UpdateMovieInfoCommand command = new UpdateMovieInfoCommand(
                 request.title(),
@@ -75,6 +78,7 @@ public class MovieController {
     }
 
     @DeleteMapping("/movies/{movieId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> removeMovie(@PathVariable @Positive Long movieId) {
         removeMovieUseCase.execute(movieId);
 
