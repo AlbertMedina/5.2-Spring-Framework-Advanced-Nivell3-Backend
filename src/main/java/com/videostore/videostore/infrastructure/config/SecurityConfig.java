@@ -1,5 +1,6 @@
 package com.videostore.videostore.infrastructure.config;
 
+import com.videostore.videostore.domain.model.user.Role;
 import com.videostore.videostore.infrastructure.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -33,12 +34,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/users").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/movies").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/movies/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/movies/**").hasRole("ADMIN")
-                        .requestMatchers("/rentals/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/favourites/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/reviews/**").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/movies").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.PUT, "/movies/**").hasRole(Role.ADMIN.name())
+                        .requestMatchers(HttpMethod.DELETE, "/movies/**").hasRole(Role.ADMIN.name())
+                        .requestMatchers("/rentals/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/favourites/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
+                        .requestMatchers("/reviews/**").hasAnyRole(Role.USER.name(), Role.ADMIN.name())
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
