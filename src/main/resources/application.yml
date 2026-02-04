@@ -15,5 +15,5 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
 
 jwt:
-  secret: "1234567890ABCDEFGHIJ"
+  secret: "!1234567890_ABCDEFGHIJ!"
   expiration: 3600000
