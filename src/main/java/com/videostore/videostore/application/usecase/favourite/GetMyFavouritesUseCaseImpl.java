@@ -1,6 +1,6 @@
 package com.videostore.videostore.application.usecase.favourite;
 
-import com.videostore.videostore.application.port.in.favourite.GetFavouritesByUserUseCase;
+import com.videostore.videostore.application.port.in.favourite.GetMyFavouritesUseCase;
 import com.videostore.videostore.domain.exception.notfound.UserNotFoundException;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.domain.model.user.User;
@@ -13,12 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-public class GetFavouritesByUserUseCaseImpl implements GetFavouritesByUserUseCase {
+public class GetMyFavouritesUseCaseImpl implements GetMyFavouritesUseCase {
 
     private final FavouriteRepository favouriteRepository;
     private final UserRepository userRepository;
 
-    public GetFavouritesByUserUseCaseImpl(FavouriteRepository favouriteRepository, UserRepository userRepository) {
+    public GetMyFavouritesUseCaseImpl(FavouriteRepository favouriteRepository, UserRepository userRepository) {
         this.favouriteRepository = favouriteRepository;
         this.userRepository = userRepository;
     }
