@@ -1,7 +1,7 @@
-package com.videostore.videostore.application.usecase.user;
+package com.videostore.videostore.application.usecase.auth;
 
-import com.videostore.videostore.application.command.user.RegisterUserCommand;
-import com.videostore.videostore.application.port.in.user.RegisterUserUseCase;
+import com.videostore.videostore.application.command.auth.RegisterUserCommand;
+import com.videostore.videostore.application.port.in.auth.RegisterUserUseCase;
 import com.videostore.videostore.domain.exception.conflict.EmailAlreadyExistsException;
 import com.videostore.videostore.domain.exception.conflict.UsernameAlreadyExistsException;
 import com.videostore.videostore.domain.model.user.Role;

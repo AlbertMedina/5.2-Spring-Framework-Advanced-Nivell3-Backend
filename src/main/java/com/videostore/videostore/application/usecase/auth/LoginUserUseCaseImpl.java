@@ -1,8 +1,8 @@
-package com.videostore.videostore.application.usecase.user;
+package com.videostore.videostore.application.usecase.auth;
 
 import com.videostore.videostore.application.auth.LoginIdentifier;
-import com.videostore.videostore.application.command.user.LoginUserCommand;
-import com.videostore.videostore.application.port.in.user.LoginUserUseCase;
+import com.videostore.videostore.application.command.auth.LoginUserCommand;
+import com.videostore.videostore.application.port.in.auth.LoginUserUseCase;
 import com.videostore.videostore.domain.exception.validation.InvalidCredentialsException;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.Email;

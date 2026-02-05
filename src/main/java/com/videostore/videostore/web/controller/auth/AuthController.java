@@ -1,8 +1,9 @@
 package com.videostore.videostore.web.controller.auth;
 
-import com.videostore.videostore.application.command.user.LoginUserCommand;
-import com.videostore.videostore.application.command.user.RegisterUserCommand;
-import com.videostore.videostore.application.port.in.user.*;
+import com.videostore.videostore.application.command.auth.LoginUserCommand;
+import com.videostore.videostore.application.command.auth.RegisterUserCommand;
+import com.videostore.videostore.application.port.in.auth.LoginUserUseCase;
+import com.videostore.videostore.application.port.in.auth.RegisterUserUseCase;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.infrastructure.security.JwtService;
 import com.videostore.videostore.web.controller.auth.dto.request.LoginUserRequest;
