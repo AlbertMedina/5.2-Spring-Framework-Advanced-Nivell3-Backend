@@ -1,4 +1,4 @@
-package com.videostore.videostore.web.controller.user.dto.request;
+package com.videostore.videostore.web.controller.auth.dto.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
