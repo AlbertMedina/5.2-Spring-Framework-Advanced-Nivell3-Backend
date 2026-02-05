@@ -11,6 +11,7 @@ import com.videostore.videostore.web.controller.review.dto.response.ReviewRespon
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,8 +36,8 @@ public class ReviewController {
     }
 
     @PostMapping("/reviews")
-    public ResponseEntity<ReviewResponse> addReview(@RequestBody @Valid AddReviewRequest request) {
-        AddReviewCommand command = new AddReviewCommand(request.userId(), request.movieId(), request.rating(), request.comment());
+    public ResponseEntity<ReviewResponse> addReview(@RequestBody @Valid AddReviewRequest request, Authentication authentication) {
+        AddReviewCommand command = new AddReviewCommand(authentication.getName(), request.movieId(), request.rating(), request.comment());
         Review review = addReviewUseCase.execute(command);
 
         ReviewResponse response = ReviewResponse.fromDomain(review);
@@ -44,8 +45,8 @@ public class ReviewController {
     }
 
     @DeleteMapping("/reviews/{userId}/{movieId}")
-    public ResponseEntity<Void> removeReview(@PathVariable @Positive Long userId, @PathVariable @Positive Long movieId) {
-        RemoveReviewCommand command = new RemoveReviewCommand(userId, movieId);
+    public ResponseEntity<Void> removeReview(@PathVariable @Positive Long movieId, Authentication authentication) {
+        RemoveReviewCommand command = new RemoveReviewCommand(authentication.getName(), movieId);
         removeReviewUseCase.execute(command);
 
         return ResponseEntity.noContent().build();

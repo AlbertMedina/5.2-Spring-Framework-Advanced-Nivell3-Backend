@@ -1,7 +1,7 @@
 package com.videostore.videostore.application.command.review;
 
 public record AddReviewCommand(
-        Long userId,
+        String username,
         Long movieId,
         int rating,
         String comment

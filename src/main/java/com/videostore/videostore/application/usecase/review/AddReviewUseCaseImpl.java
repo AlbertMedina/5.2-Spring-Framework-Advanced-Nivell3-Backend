@@ -14,6 +14,7 @@ import com.videostore.videostore.domain.model.review.valueobject.Rating;
 import com.videostore.videostore.domain.model.review.valueobject.ReviewDate;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.UserId;
+import com.videostore.videostore.domain.model.user.valueobject.Username;
 import com.videostore.videostore.domain.repository.MovieRepository;
 import com.videostore.videostore.domain.repository.RentalRepository;
 import com.videostore.videostore.domain.repository.ReviewRepository;
@@ -41,16 +42,16 @@ public class AddReviewUseCaseImpl implements AddReviewUseCase {
     @Override
     @Transactional
     public Review execute(AddReviewCommand command) {
-        UserId userId = new UserId(command.userId());
+        Username username = new Username(command.username());
         MovieId movieId = new MovieId(command.movieId());
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException(userId.value()));
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UserNotFoundException(username.value()));
 
         Movie movie = movieRepository.findById(movieId)
                 .orElseThrow(() -> new MovieNotFoundException(movieId.value()));
 
-        validateReview(userId, movieId);
+        validateReview(user.getId(), movieId);
 
         Review review = Review.create(
                 null,
