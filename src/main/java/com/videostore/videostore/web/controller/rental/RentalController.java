@@ -58,7 +58,7 @@ public class RentalController {
     }
 
     @GetMapping("/me/rentals")
-    public ResponseEntity<List<RentalResponse>> getRentalsByUser(Authentication authentication) {
+    public ResponseEntity<List<RentalResponse>> getMyRentals(Authentication authentication) {
         List<RentalResponse> response = getMyRentalsUseCase.execute(authentication.getName())
                 .stream().map(RentalResponse::fromDomain).toList();
 

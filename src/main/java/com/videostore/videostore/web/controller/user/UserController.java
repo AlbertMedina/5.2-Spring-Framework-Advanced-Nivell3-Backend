@@ -85,7 +85,6 @@ public class UserController {
     }
 
     @GetMapping("/me")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResponse> getMe(Authentication authentication) {
         User user = getMeUseCase.execute(authentication.getName());
 

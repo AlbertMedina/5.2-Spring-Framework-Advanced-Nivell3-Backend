@@ -53,7 +53,7 @@ public class FavouriteController {
     }
 
     @GetMapping("/me/favourites")
-    public ResponseEntity<List<FavouriteResponse>> getFavouritesByUser(Authentication authentication) {
+    public ResponseEntity<List<FavouriteResponse>> getMyFavourites(Authentication authentication) {
         List<FavouriteResponse> response = getMyFavouritesUseCase.execute(authentication.getName())
                 .stream().map(FavouriteResponse::fromDomain).toList();
 

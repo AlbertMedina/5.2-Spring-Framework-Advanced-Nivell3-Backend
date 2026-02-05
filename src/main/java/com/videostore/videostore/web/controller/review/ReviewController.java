@@ -44,7 +44,7 @@ public class ReviewController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @DeleteMapping("/reviews/{userId}/{movieId}")
+    @DeleteMapping("/reviews/{movieId}")
     public ResponseEntity<Void> removeReview(@PathVariable @Positive Long movieId, Authentication authentication) {
         RemoveReviewCommand command = new RemoveReviewCommand(authentication.getName(), movieId);
         removeReviewUseCase.execute(command);
