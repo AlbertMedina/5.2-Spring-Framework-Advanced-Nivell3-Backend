@@ -1,6 +1,6 @@
 package com.videostore.videostore.infrastructure.security;
 
-import com.videostore.videostore.application.auth.LoginIdentifier;
+import com.videostore.videostore.application.auth.valueobject.LoginIdentifier;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.Email;
 import com.videostore.videostore.domain.model.user.valueobject.Username;

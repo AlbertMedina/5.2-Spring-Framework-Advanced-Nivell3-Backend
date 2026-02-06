@@ -1,4 +1,4 @@
-package com.videostore.videostore.application.auth;
+package com.videostore.videostore.application.auth.valueobject;
 
 public record LoginIdentifier(String value) {
 

@@ -3,7 +3,7 @@ package com.videostore.videostore.web.controller.movie;
 import com.videostore.videostore.application.command.movie.AddMovieCommand;
 import com.videostore.videostore.application.command.movie.UpdateMovieInfoCommand;
 import com.videostore.videostore.application.port.in.movie.*;
-import com.videostore.videostore.application.query.movie.GetAllMoviesQuery;
+import com.videostore.videostore.application.command.movie.GetAllMoviesCommand;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.movie.MovieSortBy;
 import com.videostore.videostore.web.controller.movie.dto.request.AddMovieRequest;
@@ -102,8 +102,8 @@ public class MovieController {
                                                             @RequestParam MovieSortBy sortBy,
                                                             @RequestParam(defaultValue = "true") boolean ascending) {
 
-        GetAllMoviesQuery getAllMovieQuery = new GetAllMoviesQuery(page, size, genre, onlyAvailable, title, sortBy, ascending);
-        List<MovieResponse> response = getAllMoviesUseCase.execute(getAllMovieQuery)
+        GetAllMoviesCommand getAllMoviesCommand = new GetAllMoviesCommand(page, size, genre, onlyAvailable, title, sortBy, ascending);
+        List<MovieResponse> response = getAllMoviesUseCase.execute(getAllMoviesCommand)
                 .stream().map(MovieResponse::fromDomain).toList();
 
         return ResponseEntity.ok(response);

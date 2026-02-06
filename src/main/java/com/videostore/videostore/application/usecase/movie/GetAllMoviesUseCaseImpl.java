@@ -1,7 +1,7 @@
 package com.videostore.videostore.application.usecase.movie;
 
 import com.videostore.videostore.application.port.in.movie.GetAllMoviesUseCase;
-import com.videostore.videostore.application.query.movie.GetAllMoviesQuery;
+import com.videostore.videostore.application.command.movie.GetAllMoviesCommand;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.repository.MovieRepository;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ public class GetAllMoviesUseCaseImpl implements GetAllMoviesUseCase {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Movie> execute(GetAllMoviesQuery getAllMoviesQuery) {
+    public List<Movie> execute(GetAllMoviesCommand getAllMoviesCommand) {
         return movieRepository.findAll(
-                getAllMoviesQuery.page(),
-                getAllMoviesQuery.size(),
-                getAllMoviesQuery.genre(),
-                getAllMoviesQuery.onlyAvailable(),
-                getAllMoviesQuery.title(),
-                getAllMoviesQuery.sortBy(),
-                getAllMoviesQuery.ascending()
+                getAllMoviesCommand.page(),
+                getAllMoviesCommand.size(),
+                getAllMoviesCommand.genre(),
+                getAllMoviesCommand.onlyAvailable(),
+                getAllMoviesCommand.title(),
+                getAllMoviesCommand.sortBy(),
+                getAllMoviesCommand.ascending()
         );
     }
 }
