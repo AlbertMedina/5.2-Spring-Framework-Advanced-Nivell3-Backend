@@ -11,10 +11,12 @@ import com.videostore.videostore.infrastructure.persistence.specification.movie.
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public class MovieRepositoryImpl implements MovieRepository {
 
     private final MovieRepositoryJPA movieRepositoryJPA;

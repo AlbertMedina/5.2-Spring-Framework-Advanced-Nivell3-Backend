@@ -5,7 +5,9 @@ import com.videostore.videostore.domain.exception.notfound.UserNotFoundException
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.Username;
 import com.videostore.videostore.domain.repository.UserRepository;
+import org.springframework.stereotype.Service;
 
+@Service
 public class GetMeUseCaseImpl implements GetMeUseCase {
 
     private final UserRepository userRepository;
