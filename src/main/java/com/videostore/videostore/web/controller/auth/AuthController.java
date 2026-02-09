@@ -34,7 +34,7 @@ public class AuthController {
         this.registerUserUseCase = registerUserUseCase;
     }
 
-    @PostMapping("/users")
+    @PostMapping("/auth/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody @Valid RegisterUserRequest request) {
         RegisterUserCommand command = new RegisterUserCommand(
                 request.name(),
