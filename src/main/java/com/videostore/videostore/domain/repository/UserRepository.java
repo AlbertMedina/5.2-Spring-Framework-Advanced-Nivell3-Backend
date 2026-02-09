@@ -13,15 +13,13 @@ public interface UserRepository {
 
     Optional<User> findById(UserId id);
 
-    List<User> findAll();
+    List<User> findAllUsers();
 
     boolean existsById(UserId id);
 
     Optional<User> findByUsername(Username username);
 
     boolean existsByUsername(Username username);
-
-    Optional<User> findByEmail(Email email);
 
     boolean existsByEmail(Email email);
 

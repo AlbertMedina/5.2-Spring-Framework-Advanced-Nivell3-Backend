@@ -1,6 +1,7 @@
 package com.videostore.videostore.infrastructure.persistence.adapter;
 
 import com.videostore.videostore.application.auth.valueobject.LoginIdentifier;
+import com.videostore.videostore.domain.model.user.Role;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.Email;
 import com.videostore.videostore.domain.model.user.valueobject.UserId;
@@ -30,8 +31,8 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
-    public List<User> findAll() {
-        return userRepositoryJPA.findAll()
+    public List<User> findAllUsers() {
+        return userRepositoryJPA.findAllByRole(Role.USER)
                 .stream().map(UserMapper::toDomain).toList();
     }
 
@@ -49,12 +50,6 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public boolean existsByUsername(Username username) {
         return userRepositoryJPA.existsByUsername(username.value());
-    }
-
-    @Override
-    public Optional<User> findByEmail(Email email) {
-        return userRepositoryJPA.findByEmail(email.value())
-                .map(UserMapper::toDomain);
     }
 
     @Override

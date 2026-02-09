@@ -18,6 +18,6 @@ public class GetAllUsersUseCaseImpl implements GetAllUsersUseCase {
 
     @Override
     public List<User> execute() {
-        return userRepository.findAll();
+        return userRepository.findAllUsers();
     }
 }
