@@ -43,7 +43,7 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void register_shouldFailWhenExistingUsername() throws Exception {
+    void register_shouldFailWithExistingUsername() throws Exception {
         String body = """
                     {
                       "name": "User",
@@ -76,7 +76,7 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void register_shouldFailWhenExistingEmail() throws Exception {
+    void register_shouldFailWithExistingEmail() throws Exception {
         String body = """
                     {
                       "name": "User",
@@ -163,7 +163,7 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void login_shouldWorkWithProperUsernameAndPassword() throws Exception {
+    void login_shouldWorkWithValidUsernameAndPassword() throws Exception {
         String body = """
                     {
                       "name": "User",
@@ -194,7 +194,7 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void login_shouldWorkWithProperEmailAndPassword() throws Exception {
+    void login_shouldWorkWithValidEmailAndPassword() throws Exception {
         String body = """
                     {
                       "name": "User",
@@ -225,7 +225,7 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void login_shouldFailWithWrongLoginIdentifier() throws Exception {
+    void login_shouldFailWithNonexistentUsernameOrEmail() throws Exception {
         String body = """
                     {
                       "name": "User",
@@ -255,7 +255,7 @@ class AuthControllerIntegrationTest {
     }
 
     @Test
-    void login_shouldFailWithWrongPassword() throws Exception {
+    void login_shouldFailWithIncorrectPassword() throws Exception {
         String body = """
                     {
                       "name": "User",
