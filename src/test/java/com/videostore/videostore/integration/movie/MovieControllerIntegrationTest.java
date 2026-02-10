@@ -48,12 +48,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "synopsis",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -71,12 +71,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "synopsis",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -92,12 +92,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "synopsys",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -113,12 +113,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "-1",
+                  "year": -1,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "synopsys",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -134,12 +134,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "_genre_",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "synopsys",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -155,12 +155,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "-1",
+                  "duration": -1,
                   "director": "director",
                   "synopsis": "synopsys",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -176,12 +176,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "di/rector",
                   "synopsis": "synopsys",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -197,12 +197,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "",
-                  "numberOfCopies": "2"
+                  "numberOfCopies": 2
                 }
                 """;
 
@@ -218,12 +218,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "title",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "genre",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "director",
                   "synopsis": "synopsis",
-                  "numberOfCopies": "-1"
+                  "numberOfCopies": -1
                 }
                 """;
 
@@ -241,9 +241,9 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "Movie 2",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "Drama",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "Director",
                   "synopsis": "Synopsis"
                 }
@@ -267,9 +267,9 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "Movie 2",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "Drama",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "Director",
                   "synopsis": "Synopsis"
                 }
@@ -289,9 +289,9 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "Movie 2",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "Drama",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "Director",
                   "synopsis": "Synopsis"
                 }
@@ -311,9 +311,9 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "Drama",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "Director",
                   "synopsis": "Synopsis"
                 }
@@ -669,12 +669,12 @@ public class MovieControllerIntegrationTest {
         String body = """
                 {
                   "title": "%s",
-                  "year": "2000",
+                  "year": 2000,
                   "genre": "%s",
-                  "duration": "120",
+                  "duration": 120,
                   "director": "Director",
                   "synopsis": "Synopsis",
-                  "numberOfCopies": "%d"
+                  "numberOfCopies": %d
                 }
                 """.formatted(title, genre, numberOfCopies);
 
@@ -693,7 +693,7 @@ public class MovieControllerIntegrationTest {
     private void rentMovie(String userToken, Long movieId) throws Exception {
         String body = """
                 {
-                  "movieId": "%d"
+                  "movieId": %d
                 }
                 """.formatted(movieId);
 
@@ -707,8 +707,8 @@ public class MovieControllerIntegrationTest {
     private void addReview(String userToken, Long movieId, int rating) throws Exception {
         String body = """
                 {
-                  "movieId": "%d",
-                  "rating": "%d",
+                  "movieId": %d,
+                  "rating": %d,
                   "comment": "Comment"
                 }
                 """.formatted(movieId, rating);
