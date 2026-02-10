@@ -39,10 +39,14 @@ public class RentalControllerIntegrationTest {
     private String adminToken;
     private String userToken;
 
+    private Long userId;
+
     @BeforeEach
     void setUp() throws Exception {
         adminToken = registerAndLoginAdmin();
-        userToken = registerAndLoginUser("user1", "user1@test.com", "Password12345");
+
+        userId = registerUser("user1", "user1@test.com", "Password12345");
+        userToken = login("user1", "Password12345");
     }
 
     @Test
@@ -85,7 +89,8 @@ public class RentalControllerIntegrationTest {
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isCreated());
 
-        String user2Token = registerAndLoginUser("user2", "user2@test.com", "Password67890");
+        registerUser("user2", "user2@test.com", "Password67890");
+        String user2Token = login("user2", "Password67890");
 
         mockMvc.perform(post("/rentals")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -167,29 +172,48 @@ public class RentalControllerIntegrationTest {
 
     @Test
     void getRentalsByUser_shouldReturnListForAdmin() throws Exception {
+        Long movie1Id = addMovie("Movie 1", 1);
+        rentMovie(userToken, movie1Id);
 
+        Long movie2Id = addMovie("Movie 2", 1);
+        rentMovie(userToken, movie2Id);
+
+        mockMvc.perform(get("/users/{userId}/rentals", userId)
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(2));
     }
 
     @Test
     void getRentalsByUser_shouldReturnEmptyListWhenUserHasNoRentals() throws Exception {
-
+        mockMvc.perform(get("/users/{userId}/rentals", userId)
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(0));
     }
 
     @Test
     void getRentalsByUser_shouldFailForNonAdmin() throws Exception {
-
+        mockMvc.perform(get("/users/{userId}/rentals", userId)
+                        .header("Authorization", "Bearer " + userToken))
+                .andExpect(status().isForbidden());
     }
 
     @Test
     void getRentalsByUser_shouldFailWhenUserDoesNotExist() throws Exception {
-
+        mockMvc.perform(get("/users/{userId}/rentals", userId)
+                        .header("Authorization", "Bearer " + adminToken))
+                .andExpect(status().isNotFound());
     }
 
     @Test
     void getRentalsByMovie_shouldReturnListForAdmin() throws Exception {
         Long movieId = addMovie("Movie 1", 2);
 
-        String user2Token = registerAndLoginUser("user2", "user2@test.com", "Password67890");
+        registerUser("user2", "user2@test.com", "Password67890");
+        String user2Token = login("user2", "Password67890");
 
         rentMovie(userToken, movieId);
         rentMovie(user2Token, movieId);
@@ -241,7 +265,7 @@ public class RentalControllerIntegrationTest {
         return login("admin", "Admin1234");
     }
 
-    private String registerAndLoginUser(String username, String email, String password) throws Exception {
+    private Long registerUser(String username, String email, String password) throws Exception {
         String body = """
                 {
                   "name": "User",
@@ -252,12 +276,15 @@ public class RentalControllerIntegrationTest {
                 }
                 """.formatted(username, email, password);
 
-        mockMvc.perform(post("/auth/register")
+        String response = mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getContentAsString();
 
-        return login(username, password);
+        return JsonPath.parse(response).read("$.id", Long.class);
     }
 
     private String login(String login, String password) throws Exception {
