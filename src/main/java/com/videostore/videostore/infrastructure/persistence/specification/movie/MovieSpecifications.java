@@ -15,7 +15,7 @@ public class MovieSpecifications {
 
     public static Specification<MovieEntity> genreEquals(String genre) {
         return (root, query, cb) ->
-                genre == null || genre.isBlank() ? null : cb.equal(root.get("genre"), genre);
+                genre == null || genre.isBlank() ? null : cb.equal(cb.lower(root.get("genre")), genre.toLowerCase());
     }
 
     public static Specification<MovieEntity> titleContains(String title) {
