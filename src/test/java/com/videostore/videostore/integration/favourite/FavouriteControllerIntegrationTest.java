@@ -72,7 +72,7 @@ public class FavouriteControllerIntegrationTest {
 
     @Test
     void addFavourite_shouldFailWhenMovieDoesNotExist() throws Exception {
-        String body = favouriteBody(1L);
+        String body = favouriteBody(999L);
 
         mockMvc.perform(post("/favourites")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -121,7 +121,7 @@ public class FavouriteControllerIntegrationTest {
 
     @Test
     void removeFavourite_shouldFailWhenFavouriteDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/favourites/{movieId}", 1L)
+        mockMvc.perform(delete("/favourites/{movieId}", 999L)
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isNotFound());
     }

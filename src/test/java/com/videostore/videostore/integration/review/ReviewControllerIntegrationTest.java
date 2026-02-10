@@ -72,7 +72,7 @@ public class ReviewControllerIntegrationTest {
 
     @Test
     void addReview_shouldFailWhenMovieDoesNotExist() throws Exception {
-        String body = reviewBody(1L, 5, "Comment");
+        String body = reviewBody(999L, 5, "Comment");
 
         mockMvc.perform(post("/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -166,7 +166,7 @@ public class ReviewControllerIntegrationTest {
 
     @Test
     void removeReview_shouldFailWhenReviewDoesNotExist() throws Exception {
-        mockMvc.perform(delete("/reviews/{movieId}", 1L)
+        mockMvc.perform(delete("/reviews/{movieId}", 999L)
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isNotFound());
     }
@@ -208,11 +208,9 @@ public class ReviewControllerIntegrationTest {
 
     @Test
     void getReviewsByMovie_shouldFailWhenMovieDoesNotExist() throws Exception {
-        mockMvc.perform(get("/movies/{movieId}/reviews", 1L)
+        mockMvc.perform(get("/movies/{movieId}/reviews", 999L)
                         .header("Authorization", "Bearer " + userToken))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(0));
+                .andExpect(status().isNotFound());
     }
 
     private String registerAndLoginAdmin() throws Exception {
