@@ -35,25 +35,17 @@ class UserControllerIntegrationTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private String adminToken;
-    private String userToken;
-
     private Long user1Id;
-    private Long adminId;
 
     @BeforeEach
     void setUp() throws Exception {
         user1Id = registerUser("user1", "user1@test.com", "Password12345");
-        registerUser("user2", "user2@test.com", "Password67890");
-
-        adminId = registerAdmin();
-
-        userToken = login("user1", "Password12345");
-        adminToken = login("admin", "Admin1234");
     }
 
     @Test
     void removeUser_shouldWorkForAdmin() throws Exception {
+        String adminToken = registerAndLoginAdmin();
+
         mockMvc.perform(delete("/users/{userId}", user1Id)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isNoContent());
@@ -61,6 +53,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void removeUser_shouldFailForNonAdmin() throws Exception {
+        String userToken = login("user1", "Password12345");
+
         mockMvc.perform(delete("/users/{userId}", user1Id)
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isForbidden());
@@ -68,6 +62,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void removeUser_shouldFailForNonexistentUser() throws Exception {
+        String adminToken = registerAndLoginAdmin();
+
         mockMvc.perform(delete("/users/{userId}", 999L)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isNotFound());
@@ -75,6 +71,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void getMe_shouldReturnAuthenticatedUser() throws Exception {
+        String userToken = login("user1", "Password12345");
+
         mockMvc.perform(get("/me")
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isOk())
@@ -84,6 +82,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void getUser_shouldReturnUserForAdmin() throws Exception {
+        String adminToken = registerAndLoginAdmin();
+
         mockMvc.perform(get("/users/{userId}", user1Id)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk())
@@ -92,6 +92,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void getUser_shouldFailForNonAdmin() throws Exception {
+        String userToken = login("user1", "Password12345");
+
         mockMvc.perform(get("/users/{userId}", user1Id)
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isForbidden());
@@ -99,6 +101,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void getUser_shouldFailForNonexistentUser() throws Exception {
+        String adminToken = registerAndLoginAdmin();
+
         mockMvc.perform(get("/users/{userId}", 999L)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isNotFound());
@@ -106,6 +110,10 @@ class UserControllerIntegrationTest {
 
     @Test
     void getAllUsers_shouldReturnListForAdmin() throws Exception {
+        String adminToken = registerAndLoginAdmin();
+
+        registerUser("user2", "user2@test.com", "Password67890");
+
         mockMvc.perform(get("/users")
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk())
@@ -115,6 +123,8 @@ class UserControllerIntegrationTest {
 
     @Test
     void getAllUsers_shouldFailForNonAdmin() throws Exception {
+        String userToken = login("user1", "Password12345");
+
         mockMvc.perform(get("/users")
                         .header("Authorization", "Bearer " + userToken))
                 .andExpect(status().isForbidden());
@@ -142,7 +152,7 @@ class UserControllerIntegrationTest {
         return JsonPath.parse(response).read("$.id", Long.class);
     }
 
-    private Long registerAdmin() {
+    private String registerAndLoginAdmin() throws Exception {
         User admin = User.create(
                 null,
                 new Name("Admin"),
@@ -152,7 +162,9 @@ class UserControllerIntegrationTest {
                 new Password(passwordEncoder.encode("Admin1234")),
                 Role.ADMIN
         );
-        return userRepository.registerUser(admin).getId().value();
+        userRepository.registerUser(admin);
+
+        return login("admin", "Admin1234");
     }
 
     private String login(String login, String password) throws Exception {
