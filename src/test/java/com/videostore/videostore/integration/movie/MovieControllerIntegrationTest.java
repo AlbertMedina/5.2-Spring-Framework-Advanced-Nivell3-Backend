@@ -552,6 +552,33 @@ public class MovieControllerIntegrationTest {
     }
 
     @Test
+    void getAllMovies_shouldSortByRating() throws Exception {
+        String userToken = registerAndLoginUser();
+
+        Long movie1Id = addMovie("Movie 1", "Action", 2);
+
+        Long movie2Id = addMovie("Movie 2", "Action", 2);
+        rentMovie(userToken, movie2Id);
+        addReview(userToken, movie2Id, 5);
+
+        Long movie3Id = addMovie("Movie 3", "Drama", 2);
+        rentMovie(userToken, movie3Id);
+        addReview(userToken, movie3Id, 4);
+
+        mockMvc.perform(get("/movies")
+                        .param("page", "0")
+                        .param("size", "10")
+                        .param("sortBy", "RATING")
+                        .param("ascending", "false")
+                        .header("Authorization", "Bearer " + userToken))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").isArray())
+                .andExpect(jsonPath("$.length()").value(3))
+                .andExpect(jsonPath("$[0].title").value("Movie 2"))
+                .andExpect(jsonPath("$[2].title").value("Movie 1"));
+    }
+
+    @Test
     void getAllMovies_shouldFailWithInvalidPaginationParameters() throws Exception {
         String userToken = registerAndLoginUser();
 
@@ -671,6 +698,22 @@ public class MovieControllerIntegrationTest {
                 """.formatted(movieId);
 
         mockMvc.perform(post("/rentals")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(body)
+                        .header("Authorization", "Bearer " + userToken))
+                .andExpect(status().isCreated());
+    }
+
+    private void addReview(String userToken, Long movieId, int rating) throws Exception {
+        String body = """
+                {
+                  "movieId": "%d",
+                  "rating": "%d",
+                  "comment": "Comment"
+                }
+                """.formatted(movieId, rating);
+
+        mockMvc.perform(post("/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body)
                         .header("Authorization", "Bearer " + userToken))
