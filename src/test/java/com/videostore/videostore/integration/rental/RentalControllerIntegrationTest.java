@@ -203,7 +203,7 @@ public class RentalControllerIntegrationTest {
 
     @Test
     void getRentalsByUser_shouldFailWhenUserDoesNotExist() throws Exception {
-        mockMvc.perform(get("/users/{userId}/rentals", userId)
+        mockMvc.perform(get("/users/{userId}/rentals", 999L)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isNotFound());
     }
