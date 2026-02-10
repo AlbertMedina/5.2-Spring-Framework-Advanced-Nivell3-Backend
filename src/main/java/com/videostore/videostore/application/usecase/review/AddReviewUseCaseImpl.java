@@ -3,8 +3,8 @@ package com.videostore.videostore.application.usecase.review;
 import com.videostore.videostore.application.command.review.AddReviewCommand;
 import com.videostore.videostore.application.port.in.review.AddReviewUseCase;
 import com.videostore.videostore.domain.exception.conflict.MovieAlreadyReviewedException;
+import com.videostore.videostore.domain.exception.conflict.MovieNotRentedException;
 import com.videostore.videostore.domain.exception.notfound.MovieNotFoundException;
-import com.videostore.videostore.domain.exception.notfound.RentalNotFoundException;
 import com.videostore.videostore.domain.exception.notfound.UserNotFoundException;
 import com.videostore.videostore.domain.model.movie.Movie;
 import com.videostore.videostore.domain.model.movie.valueobject.MovieId;
@@ -67,7 +67,7 @@ public class AddReviewUseCaseImpl implements AddReviewUseCase {
 
     private void validateReview(UserId userId, MovieId movieId) {
         if (!rentalRepository.existsByUserIdAndMovieId(userId, movieId)) {
-            throw new RentalNotFoundException("Users must have the movie rented to add a review");
+            throw new MovieNotRentedException(userId.value(), movieId.value());
         }
 
         if (reviewRepository.existsByUserIdAndMovieId(userId, movieId)) {
