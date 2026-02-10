@@ -84,10 +84,10 @@ class UserControllerIntegrationTest {
 
     @Test
     void getUser_shouldReturnUserForAdmin() throws Exception {
-        mockMvc.perform(get("/users/{userId}", adminId)
+        mockMvc.perform(get("/users/{userId}", user1Id)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.username").value("admin"));
+                .andExpect(jsonPath("$.username").value("user1"));
     }
 
     @Test
