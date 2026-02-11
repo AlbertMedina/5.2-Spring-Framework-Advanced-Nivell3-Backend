@@ -6,6 +6,7 @@ import com.videostore.videostore.domain.model.user.Role;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.domain.model.user.valueobject.*;
 import com.videostore.videostore.domain.repository.UserRepository;
+import com.videostore.videostore.infrastructure.persistence.entity.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -33,33 +34,29 @@ public abstract class AbstractIntegrationTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    protected String registerAndLoginAdmin() throws Exception {
+    protected AuthenticatedTestUser registerAndLogin(String name, String surname, String username, String email, String password, boolean isAdmin) throws Exception {
+        Long id = isAdmin ?
+                registerAdmin(name, surname, username, email, password) :
+                registerUser(name, surname, username, email, password);
+        String token = login(username, password);
+
+        return new AuthenticatedTestUser(id, token);
+    }
+
+    private Long registerAdmin(String name, String surname, String username, String email, String password) {
         User admin = User.create(
                 null,
-                new Name("Admin"),
-                new Surname("Example"),
-                new Username("admin"),
-                new Email("admin@test.com"),
-                new Password(passwordEncoder.encode("Admin12345")),
+                new Name(name),
+                new Surname(surname),
+                new Username(username),
+                new Email(email),
+                new Password(passwordEncoder.encode(password)),
                 Role.ADMIN
         );
-        userRepository.registerUser(admin);
-
-        return login("admin", "Admin12345");
+        return userRepository.registerUser(admin).getId().value();
     }
 
-    protected String registerAndLoginUser(String name, String surname, String username, String email, String password) throws Exception {
-        String body = registerBody(name, surname, username, email, password);
-
-        mockMvc.perform(post("/auth/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body))
-                .andExpect(status().isCreated());
-
-        return login(username, password);
-    }
-
-    protected Long registerUser(String name, String surname, String username, String email, String password) throws Exception {
+    private Long registerUser(String name, String surname, String username, String email, String password) throws Exception {
         String body = registerBody(name, surname, username, email, password);
 
         String response = mockMvc.perform(post("/auth/register")
