@@ -1,0 +1,37 @@
+version: '3.9'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: videostore-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345
+      MYSQL_DATABASE: videostore
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - videostore-network
+
+  api:
+    build: .
+    container_name: videostore-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/videostore
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 12345
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    networks:
+      - videostore-network
+
+volumes:
+  mysql_data:
+
+networks:
+  videostore-network:
+    driver: bridge
