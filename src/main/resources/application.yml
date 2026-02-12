@@ -17,3 +17,8 @@ spring:
 jwt:
   secret: "1234567890_ABCDEFGHIJ_1234567890"
   expiration: 3600000
+
+cloudinary:
+  cloud-name: "videostore_cloud"
+  api-key: "1234567890"
+  api-secret: "abcdefghijklmnop"

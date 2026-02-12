@@ -1,5 +1,6 @@
 package com.videostore.videostore.web.exception;
 
+import com.videostore.videostore.application.exception.ImageUploadException;
 import com.videostore.videostore.domain.exception.DomainException;
 import com.videostore.videostore.domain.exception.conflict.BusinessRuleViolationException;
 import com.videostore.videostore.domain.exception.notfound.NotFoundException;
@@ -132,6 +133,18 @@ public class GlobalExceptionHandler {
         );
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(ImageUploadException.class)
+    public ResponseEntity<ErrorResponse> handleImageUpload(ImageUploadException e) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(),
+                e.getMessage(),
+                LocalDateTime.now()
+        );
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
     @ExceptionHandler(Exception.class)

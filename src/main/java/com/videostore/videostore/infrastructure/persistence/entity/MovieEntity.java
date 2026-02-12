@@ -31,6 +31,9 @@ public class MovieEntity {
     @Column(nullable = false)
     private int numberOfCopies;
 
+    @Column(length = 1000)
+    private String posterUrl;
+
     protected MovieEntity() {
     }
 
@@ -74,5 +77,13 @@ public class MovieEntity {
 
     public int getNumberOfCopies() {
         return numberOfCopies;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(String posterUrl) {
+        this.posterUrl = posterUrl;
     }
 }

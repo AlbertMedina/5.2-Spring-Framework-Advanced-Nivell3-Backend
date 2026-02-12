@@ -7,6 +7,8 @@ public record AddMovieCommand(
         int duration,
         String director,
         String synopsis,
-        int numberOfCopies
+        int numberOfCopies,
+        byte[] poster,
+        String posterFilename
 ) {
 }

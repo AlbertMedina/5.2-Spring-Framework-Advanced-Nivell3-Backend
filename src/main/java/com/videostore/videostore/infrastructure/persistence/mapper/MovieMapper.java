@@ -10,7 +10,7 @@ public final class MovieMapper {
     }
 
     public static MovieEntity toEntity(Movie movie) {
-        return new MovieEntity(
+        MovieEntity entity = new MovieEntity(
                 movie.getTitle().value(),
                 movie.getYear().value(),
                 movie.getGenre().value(),
@@ -19,10 +19,16 @@ public final class MovieMapper {
                 movie.getSynopsis().value(),
                 movie.getNumberOfCopies().value()
         );
+
+        if (movie.getPosterUrl() != null) {
+            entity.setPosterUrl(movie.getPosterUrl().value());
+        }
+
+        return entity;
     }
 
     public static Movie toDomain(MovieEntity entity) {
-        return Movie.create(
+        Movie movie = Movie.create(
                 new MovieId(entity.getId()),
                 new Title(entity.getTitle()),
                 new Year(entity.getYear()),
@@ -32,5 +38,11 @@ public final class MovieMapper {
                 new Synopsis(entity.getSynopsis()),
                 new NumberOfCopies(entity.getNumberOfCopies())
         );
+
+        if (entity.getPosterUrl() != null) {
+            movie.setPosterUrl(new PosterUrl(entity.getPosterUrl()));
+        }
+
+        return movie;
     }
 }

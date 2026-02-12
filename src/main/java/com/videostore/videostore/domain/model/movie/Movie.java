@@ -11,6 +11,7 @@ public class Movie {
     private Duration duration;
     private Director director;
     private Synopsis synopsis;
+    private PosterUrl posterUrl;
     private final NumberOfCopies numberOfCopies;
 
     public Movie(MovieId id, Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {
@@ -78,6 +79,14 @@ public class Movie {
 
     public NumberOfCopies getNumberOfCopies() {
         return numberOfCopies;
+    }
+
+    public PosterUrl getPosterUrl() {
+        return posterUrl;
+    }
+
+    public void setPosterUrl(PosterUrl posterUrl) {
+        this.posterUrl = posterUrl;
     }
 
     public static Movie create(MovieId id, Title title, Year year, Genre genre, Duration duration, Director director, Synopsis synopsis, NumberOfCopies numberOfCopies) {

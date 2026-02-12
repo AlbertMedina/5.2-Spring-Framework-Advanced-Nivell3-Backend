@@ -11,11 +11,14 @@ import com.videostore.videostore.web.controller.movie.dto.request.UpdateMovieInf
 import com.videostore.videostore.web.controller.movie.dto.response.MovieResponse;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Validated
@@ -42,9 +45,14 @@ public class MovieController {
         this.getAllMoviesUseCase = getAllMoviesUseCase;
     }
 
-    @PostMapping("/movies")
+    @PostMapping(value = "/movies", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<MovieResponse> addMovie(@RequestBody @Valid AddMovieRequest request) {
+    public ResponseEntity<MovieResponse> addMovie(
+            @RequestPart("movie") @Valid AddMovieRequest request,
+            @RequestPart(value = "poster", required = false) MultipartFile poster
+    ) throws IOException {
+        boolean hasPoster = poster != null && !poster.isEmpty();
+
         AddMovieCommand command = new AddMovieCommand(
                 request.title(),
                 request.year(),
@@ -52,13 +60,17 @@ public class MovieController {
                 request.duration(),
                 request.director(),
                 request.synopsis(),
-                request.numberOfCopies()
+                request.numberOfCopies(),
+                hasPoster ? poster.getBytes() : null,
+                hasPoster ? poster.getOriginalFilename() : null
         );
-        Movie movie = addMovieUseCase.execute(command);
 
+        Movie movie = addMovieUseCase.execute(command);
         MovieResponse response = MovieResponse.fromDomain(movie);
+
         return ResponseEntity.status(201).body(response);
     }
+
 
     @PutMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")

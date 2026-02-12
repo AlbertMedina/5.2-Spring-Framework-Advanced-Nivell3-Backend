@@ -10,7 +10,8 @@ public record MovieResponse(
         int duration,
         String director,
         String synopsis,
-        int numberOfCopies
+        int numberOfCopies,
+        String posterUrl
 ) {
     public static MovieResponse fromDomain(Movie movie) {
         return new MovieResponse(
@@ -21,7 +22,8 @@ public record MovieResponse(
                 movie.getDuration().value(),
                 movie.getDirector().value(),
                 movie.getSynopsis().value(),
-                movie.getNumberOfCopies().value()
+                movie.getNumberOfCopies().value(),
+                movie.getPosterUrl() != null ? movie.getPosterUrl().value() : null
         );
     }
 }
