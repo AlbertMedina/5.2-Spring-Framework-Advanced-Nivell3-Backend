@@ -8,6 +8,8 @@ import com.videostore.videostore.application.port.in.favourite.RemoveFavouriteUs
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.web.controller.favourite.dto.request.AddFavouriteRequest;
 import com.videostore.videostore.web.controller.favourite.dto.response.FavouriteResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Validated
 @RestController
+@Tag(name = "Favourites", description = "Operations related to user favourite movies")
 public class FavouriteController {
 
     private final AddFavouriteUseCase addFavouriteUseCase;
@@ -35,6 +38,7 @@ public class FavouriteController {
         this.getMyFavouritesUseCase = getMyFavouritesUseCase;
     }
 
+    @Operation(summary = "Add a movie to the authenticated user favourites")
     @PostMapping("/favourites")
     public ResponseEntity<FavouriteResponse> addFavourite(@RequestBody @Valid AddFavouriteRequest request, Authentication authentication) {
         AddFavouriteCommand command = new AddFavouriteCommand(authentication.getName(), request.movieId());
@@ -44,6 +48,7 @@ public class FavouriteController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @Operation(summary = "Remove a movie from the authenticated user favourites")
     @DeleteMapping("/favourites/{movieId}")
     public ResponseEntity<Void> removeFavourite(@PathVariable @Positive Long movieId, Authentication authentication) {
         RemoveFavouriteCommand command = new RemoveFavouriteCommand(authentication.getName(), movieId);
@@ -52,6 +57,7 @@ public class FavouriteController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get all favourite movies for the authenticated user")
     @GetMapping("/me/favourites")
     public ResponseEntity<List<FavouriteResponse>> getMyFavourites(Authentication authentication) {
         List<FavouriteResponse> response = getMyFavouritesUseCase.execute(authentication.getName())

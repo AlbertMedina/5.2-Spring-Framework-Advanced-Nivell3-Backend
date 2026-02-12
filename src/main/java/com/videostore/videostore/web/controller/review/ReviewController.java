@@ -8,6 +8,8 @@ import com.videostore.videostore.application.port.in.review.RemoveReviewUseCase;
 import com.videostore.videostore.domain.model.review.Review;
 import com.videostore.videostore.web.controller.review.dto.request.AddReviewRequest;
 import com.videostore.videostore.web.controller.review.dto.response.ReviewResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.List;
 
 @Validated
 @RestController
+@Tag(name = "Reviews", description = "Operations related to movie reviews")
 public class ReviewController {
 
     private final AddReviewUseCase addReviewUseCase;
@@ -35,6 +38,7 @@ public class ReviewController {
         this.getReviewsByMovieUseCase = getReviewsByMovieUseCase;
     }
 
+    @Operation(summary = "Add a review by the authenticated user to a movie")
     @PostMapping("/reviews")
     public ResponseEntity<ReviewResponse> addReview(@RequestBody @Valid AddReviewRequest request, Authentication authentication) {
         AddReviewCommand command = new AddReviewCommand(authentication.getName(), request.movieId(), request.rating(), request.comment());
@@ -44,6 +48,7 @@ public class ReviewController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @Operation(summary = "Remove a review by the authenticated user from a movie")
     @DeleteMapping("/reviews/{movieId}")
     public ResponseEntity<Void> removeReview(@PathVariable @Positive Long movieId, Authentication authentication) {
         RemoveReviewCommand command = new RemoveReviewCommand(authentication.getName(), movieId);
@@ -52,6 +57,7 @@ public class ReviewController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get all the reviews for a movie")
     @GetMapping("/movies/{movieId}/reviews")
     public ResponseEntity<List<ReviewResponse>> getReviewsByMovie(@PathVariable @Positive Long movieId) {
         List<ReviewResponse> response = getReviewsByMovieUseCase.execute(movieId)

@@ -10,6 +10,8 @@ import com.videostore.videostore.web.controller.auth.dto.request.LoginUserReques
 import com.videostore.videostore.web.controller.auth.dto.response.LoginResponse;
 import com.videostore.videostore.web.controller.auth.dto.request.RegisterUserRequest;
 import com.videostore.videostore.web.controller.user.dto.response.UserResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @Validated
 @RestController
+@Tag(name = "Authentication", description = "Operations related to user authentication (register/login)")
 public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
@@ -34,6 +37,7 @@ public class AuthController {
         this.registerUserUseCase = registerUserUseCase;
     }
 
+    @Operation(summary = "Register a new user")
     @PostMapping("/auth/register")
     public ResponseEntity<UserResponse> registerUser(@RequestBody @Valid RegisterUserRequest request) {
         RegisterUserCommand command = new RegisterUserCommand(
@@ -49,6 +53,7 @@ public class AuthController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @Operation(summary = "Login a user")
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponse> loginUser(@RequestBody @Valid LoginUserRequest request) {
         LoginUserCommand command = new LoginUserCommand(

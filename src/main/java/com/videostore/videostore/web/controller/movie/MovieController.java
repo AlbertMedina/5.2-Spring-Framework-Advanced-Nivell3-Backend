@@ -9,6 +9,8 @@ import com.videostore.videostore.domain.model.movie.MovieSortBy;
 import com.videostore.videostore.web.controller.movie.dto.request.AddMovieRequest;
 import com.videostore.videostore.web.controller.movie.dto.request.UpdateMovieInfoRequest;
 import com.videostore.videostore.web.controller.movie.dto.response.MovieResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.MediaType;
@@ -23,6 +25,7 @@ import java.util.List;
 
 @Validated
 @RestController
+@Tag(name = "Movies", description = "Operations related to movies")
 public class MovieController {
 
     private final AddMovieUseCase addMovieUseCase;
@@ -45,6 +48,7 @@ public class MovieController {
         this.getAllMoviesUseCase = getAllMoviesUseCase;
     }
 
+    @Operation(summary = "Add a movie to the video store")
     @PostMapping(value = "/movies", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MovieResponse> addMovie(
@@ -71,7 +75,7 @@ public class MovieController {
         return ResponseEntity.status(201).body(response);
     }
 
-
+    @Operation(summary = "Update the info for a movie in the video store")
     @PutMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<MovieResponse> updateMovieInfo(@PathVariable @Positive Long movieId, @RequestBody @Valid UpdateMovieInfoRequest request) {
@@ -89,6 +93,7 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Remove a movie from the video store")
     @DeleteMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Void> removeMovie(@PathVariable @Positive Long movieId) {
@@ -97,6 +102,7 @@ public class MovieController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get details of a movie in the video store")
     @GetMapping("/movies/{movieId}")
     public ResponseEntity<MovieResponse> getMovie(@PathVariable @Positive Long movieId) {
         Movie movie = getMovieUseCase.execute(movieId);
@@ -105,6 +111,7 @@ public class MovieController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get all movies in the video store with filters and sorted")
     @GetMapping("/movies")
     public ResponseEntity<List<MovieResponse>> getAllMovies(@RequestParam int page,
                                                             @RequestParam int size,

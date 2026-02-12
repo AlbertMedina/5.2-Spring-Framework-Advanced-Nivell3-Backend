@@ -3,6 +3,8 @@ package com.videostore.videostore.web.controller.user;
 import com.videostore.videostore.application.port.in.user.*;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.web.controller.user.dto.response.UserResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -14,6 +16,7 @@ import java.util.List;
 
 @Validated
 @RestController
+@Tag(name = "Users", description = "Operations related to users")
 public class UserController {
 
     private final RemoveUserUseCase removeUserUseCase;
@@ -41,6 +44,7 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get details of authenticated user")
     @GetMapping("/me")
     public ResponseEntity<UserResponse> getMe(Authentication authentication) {
         User user = getMeUseCase.execute(authentication.getName());
@@ -49,6 +53,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get details of a user")
     @GetMapping("/users/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<UserResponse> getUser(@PathVariable @Positive Long userId) {
@@ -58,6 +63,7 @@ public class UserController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get details of all users")
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<UserResponse>> getAllUsers() {

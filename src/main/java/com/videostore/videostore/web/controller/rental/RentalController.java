@@ -6,6 +6,8 @@ import com.videostore.videostore.application.port.in.rental.*;
 import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.web.controller.rental.dto.request.RentMovieRequest;
 import com.videostore.videostore.web.controller.rental.dto.response.RentalResponse;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,7 @@ import java.util.List;
 
 @Validated
 @RestController
+@Tag(name = "Rentals", description = "Operations related to movie rentals")
 public class RentalController {
 
     private final RentMovieUseCase rentMovieUseCase;
@@ -40,6 +43,7 @@ public class RentalController {
         this.getRentalsByMovieUseCase = getRentalsByMovieUseCase;
     }
 
+    @Operation(summary = "Rent a movie by the authenticated user")
     @PostMapping("/rentals")
     public ResponseEntity<RentalResponse> rentMovie(@RequestBody @Valid RentMovieRequest request, Authentication authentication) {
         RentMovieCommand command = new RentMovieCommand(authentication.getName(), request.movieId());
@@ -49,6 +53,7 @@ public class RentalController {
         return ResponseEntity.status(201).body(response);
     }
 
+    @Operation(summary = "Return a movie rented by the authenticated user")
     @DeleteMapping("/rentals/{movieId}")
     public ResponseEntity<Void> returnMovie(@PathVariable @Positive Long movieId, Authentication authentication) {
         ReturnMovieCommand command = new ReturnMovieCommand(authentication.getName(), movieId);
@@ -57,6 +62,7 @@ public class RentalController {
         return ResponseEntity.noContent().build();
     }
 
+    @Operation(summary = "Get all active rentals by the authenticated user")
     @GetMapping("/me/rentals")
     public ResponseEntity<List<RentalResponse>> getMyRentals(Authentication authentication) {
         List<RentalResponse> response = getMyRentalsUseCase.execute(authentication.getName())
@@ -65,6 +71,7 @@ public class RentalController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get all active rentals by a user")
     @GetMapping("/users/{userId}/rentals")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<RentalResponse>> getRentalsByUser(@PathVariable @Positive Long userId) {
@@ -74,6 +81,7 @@ public class RentalController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "Get all active rentals for a movie")
     @GetMapping("/movies/{movieId}/rentals")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<RentalResponse>> getRentalsByMovie(@PathVariable @Positive Long movieId) {
