@@ -17,7 +17,7 @@ public class ReviewControllerIntegrationTest extends AbstractIntegrationTest {
 
     @BeforeEach
     void setUp() throws Exception {
-        admin = registerAndLogin("Admin", "Example", "admin", "admin@test.com", "Password12345", true);
+        admin = registerAndLogin("Admin", "Test", "admin_test", "admin_test@test.com", "Password12345", true);
         user = registerAndLogin("User", "Example", "user1", "user1@test.com", "Password12345", false);
     }
 
