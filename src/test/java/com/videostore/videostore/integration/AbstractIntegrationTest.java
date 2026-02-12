@@ -12,10 +12,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -106,11 +108,23 @@ public abstract class AbstractIntegrationTest {
     }
 
     protected Long addMovie(String adminToken, String title, int year, String genre, int duration, String director, String synopsis, int numberOfCopies) throws Exception {
-        String body = movieBody(title, year, genre, duration, director, synopsis, numberOfCopies);
+        String movieJson = movieBody(title, year, genre, duration, director, synopsis, numberOfCopies);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        String response = mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        String response = mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + adminToken))
                 .andExpect(status().isCreated())
                 .andReturn()
@@ -119,6 +133,7 @@ public abstract class AbstractIntegrationTest {
 
         return JsonPath.parse(response).read("$.id", Long.class);
     }
+
 
     protected String movieBody(String title, int year, String genre, int duration, String director, String synopsis, int numberOfCopies) {
         return """

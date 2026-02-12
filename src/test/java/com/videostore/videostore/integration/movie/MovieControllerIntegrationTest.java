@@ -5,6 +5,7 @@ import com.videostore.videostore.integration.AuthenticatedTestUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockMultipartFile;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,11 +22,23 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Test
     void addMovie_shouldWorkForAdmin() throws Exception {
-        String body = movieBody("Movie 1", 2000, "Action", 120, "Director A", "Synopsis 1", 2);
+        String movieJson = movieBody("Movie 1", 2000, "Action", 120, "Director A", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isCreated());
     }
@@ -34,88 +47,184 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
     void addMovie_shouldFailForNonAdmin() throws Exception {
         AuthenticatedTestUser user = registerAndLogin("User", "Example", "user1", "user1@test.com", "Password12345", false);
 
-        String body = movieBody("Movie 1", 2000, "Action", 120, "Director A", "Synopsis 1", 2);
+        String movieJson = movieBody("Movie 1", 2000, "Action", 120, "Director A", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isForbidden());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidTitle() throws Exception {
-        String body = movieBody("", 2000, "Action", 120, "Director A", "Synopsis 1", 2);
+        String movieJson = movieBody("", 2000, "Action", 120, "Director A", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidYear() throws Exception {
-        String body = movieBody("Movie 1", -1, "Action", 120, "Director A", "Synopsis 1", 2);
+        String movieJson = movieBody("Movie 1", -1, "Action", 120, "Director A", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidGenre() throws Exception {
-        String body = movieBody("Movie 1", 2000, "_genre_", 120, "Director A", "Synopsis 1", 2);
+        String movieJson = movieBody("Movie 1", 2000, "_genre_", 120, "Director A", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidDuration() throws Exception {
-        String body = movieBody("Movie 1", 2000, "Action", -1, "Director A", "Synopsis 1", 2);
+        String movieJson = movieBody("Movie 1", 2000, "Action", -1, "Director A", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidDirector() throws Exception {
-        String body = movieBody("Movie 1", 2000, "Action", 120, "Di/rector", "Synopsis 1", 2);
+        String movieJson = movieBody("Movie 1", 2000, "Action", 120, "Di/rector", "Synopsis 1", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidSynopsis() throws Exception {
-        String body = movieBody("Movie 1", 2000, "Action", 120, "Director A", "", 2);
+        String movieJson = movieBody("Movie 1", 2000, "Action", 120, "Director A", "", 2);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
 
     @Test
     void addMovie_shouldFailWithInvalidNumberOfCopies() throws Exception {
-        String body = movieBody("Movie 1", 2000, "Action", 120, "Director A", "Synopsis 1", -1);
+        String movieJson = movieBody("Movie 1", 2000, "Action", 120, "Director A", "Synopsis 1", -1);
+        MockMultipartFile moviePart = new MockMultipartFile(
+                "movie",
+                "movie.json",
+                MediaType.APPLICATION_JSON_VALUE,
+                movieJson.getBytes()
+        );
 
-        mockMvc.perform(post("/movies")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(body)
+        MockMultipartFile emptyPoster = new MockMultipartFile(
+                "poster",
+                new byte[0]
+        );
+
+        mockMvc.perform(multipart("/movies")
+                        .file(moviePart)
+                        .file(emptyPoster)
+                        .contentType(MediaType.MULTIPART_FORM_DATA)
                         .header("Authorization", "Bearer " + admin.token()))
                 .andExpect(status().isBadRequest());
     }
