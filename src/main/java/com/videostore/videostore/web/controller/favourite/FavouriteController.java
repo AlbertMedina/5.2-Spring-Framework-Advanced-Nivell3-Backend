@@ -14,6 +14,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
@@ -44,6 +46,7 @@ public class FavouriteController {
 
     @Operation(summary = "Add a movie to the authenticated user favourites")
     @PostMapping("/favourites")
+    @CacheEvict(value = "favourites", key = "#authentication.name")
     public ResponseEntity<FavouriteResponse> addFavourite(@RequestBody @Valid AddFavouriteRequest request, Authentication authentication) {
         log.info("User {} requested to add movie {} to favourites", authentication.getName(), request.movieId());
 
@@ -58,6 +61,7 @@ public class FavouriteController {
 
     @Operation(summary = "Remove a movie from the authenticated user favourites")
     @DeleteMapping("/favourites/{movieId}")
+    @CacheEvict(value = "favourites", key = "#authentication.name")
     public ResponseEntity<Void> removeFavourite(@PathVariable @Positive Long movieId, Authentication authentication) {
         log.info("User {} requested to remove movie {} from favourites", authentication.getName(), movieId);
 
@@ -71,6 +75,7 @@ public class FavouriteController {
 
     @Operation(summary = "Get all favourite movies for the authenticated user")
     @GetMapping("/me/favourites")
+    @Cacheable(value = "favourites", key = "#authentication.name")
     public ResponseEntity<List<FavouriteResponse>> getMyFavourites(Authentication authentication) {
         log.info("User {} requested all their favourite movies", authentication.getName());
 

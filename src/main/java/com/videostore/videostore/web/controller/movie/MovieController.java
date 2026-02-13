@@ -15,6 +15,8 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -87,6 +89,7 @@ public class MovieController {
     @Operation(summary = "Update the info for a movie in the video store")
     @PutMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
+    @CacheEvict(value = "movies", key = "#movieId")
     public ResponseEntity<MovieResponse> updateMovieInfo(@PathVariable @Positive Long movieId, @RequestBody @Valid UpdateMovieInfoRequest request) {
         log.info("Admin requested to update movie id {}", movieId);
 
@@ -109,6 +112,7 @@ public class MovieController {
     @Operation(summary = "Remove a movie from the video store")
     @DeleteMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
+    @CacheEvict(value = "movies", key = "#movieId")
     public ResponseEntity<Void> removeMovie(@PathVariable @Positive Long movieId) {
         log.info("Admin requested to remove movie id {}", movieId);
 
@@ -121,6 +125,7 @@ public class MovieController {
 
     @Operation(summary = "Get details of a movie in the video store")
     @GetMapping("/movies/{movieId}")
+    @Cacheable(value = "movies", key = "#movieId")
     public ResponseEntity<MovieResponse> getMovie(@PathVariable @Positive Long movieId) {
         log.info("Request received to get movie id {}", movieId);
 

@@ -12,6 +12,9 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -49,6 +52,11 @@ public class RentalController {
 
     @Operation(summary = "Rent a movie by the authenticated user")
     @PostMapping("/rentals")
+    @Caching(evict = {
+            @CacheEvict(value = "myRentals", key = "#authentication.name"),
+            @CacheEvict(value = "rentalsByUser", allEntries = true),
+            @CacheEvict(value = "rentalsByMovie", key = "#request.movieId")
+    })
     public ResponseEntity<RentalResponse> rentMovie(@RequestBody @Valid RentMovieRequest request, Authentication authentication) {
         log.info("User {} requested to rent movie id {}", authentication.getName(), request.movieId());
 
@@ -63,6 +71,11 @@ public class RentalController {
 
     @Operation(summary = "Return a movie rented by the authenticated user")
     @DeleteMapping("/rentals/{movieId}")
+    @Caching(evict = {
+            @CacheEvict(value = "myRentals", key = "#authentication.name"),
+            @CacheEvict(value = "rentalsByUser", allEntries = true),
+            @CacheEvict(value = "rentalsByMovie", key = "#movieId")
+    })
     public ResponseEntity<Void> returnMovie(@PathVariable @Positive Long movieId, Authentication authentication) {
         log.info("User {} requested to return movie id {}", authentication.getName(), movieId);
 
@@ -76,6 +89,7 @@ public class RentalController {
 
     @Operation(summary = "Get all active rentals by the authenticated user")
     @GetMapping("/me/rentals")
+    @Cacheable(value = "myRentals", key = "#authentication.name")
     public ResponseEntity<List<RentalResponse>> getMyRentals(Authentication authentication) {
         log.info("User {} requested all their active rentals", authentication.getName());
 
@@ -90,6 +104,7 @@ public class RentalController {
     @Operation(summary = "Get all active rentals by a user")
     @GetMapping("/users/{userId}/rentals")
     @PreAuthorize("hasRole('ADMIN')")
+    @Cacheable(value = "rentalsByUser", key = "#userId")
     public ResponseEntity<List<RentalResponse>> getRentalsByUser(@PathVariable @Positive Long userId) {
         log.info("Admin requested all active rentals for user id {}", userId);
 
@@ -104,6 +119,7 @@ public class RentalController {
     @Operation(summary = "Get all active rentals for a movie")
     @GetMapping("/movies/{movieId}/rentals")
     @PreAuthorize("hasRole('ADMIN')")
+    @Cacheable(value = "rentalsByMovie", key = "#movieId")
     public ResponseEntity<List<RentalResponse>> getRentalsByMovie(@PathVariable @Positive Long movieId) {
         log.info("Admin requested all active rentals for movie id {}", movieId);
 

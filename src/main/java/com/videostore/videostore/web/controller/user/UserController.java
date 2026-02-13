@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.constraints.Positive;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -43,6 +46,10 @@ public class UserController {
     @Operation(summary = "Remove a user")
     @DeleteMapping("/users/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Caching(evict = {
+            @CacheEvict(value = "users", allEntries = true),
+            @CacheEvict(value = "allUsers", allEntries = true)
+    })
     public ResponseEntity<Void> removeUser(@PathVariable @Positive Long userId) {
         log.info("Admin requested deletion of user {}", userId);
 
@@ -55,6 +62,7 @@ public class UserController {
 
     @Operation(summary = "Get details of authenticated user")
     @GetMapping("/me")
+    @Cacheable(value = "users", key = "#authentication.name")
     public ResponseEntity<UserResponse> getMe(Authentication authentication) {
         log.info("Request received to get the authenticated user");
 
@@ -69,6 +77,7 @@ public class UserController {
     @Operation(summary = "Get details of a user")
     @GetMapping("/users/{userId}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Cacheable(value = "users", key = "#userId")
     public ResponseEntity<UserResponse> getUser(@PathVariable @Positive Long userId) {
         log.info("Admin requested user {}", userId);
 
@@ -83,6 +92,7 @@ public class UserController {
     @Operation(summary = "Get details of all users")
     @GetMapping("/users")
     @PreAuthorize("hasRole('ADMIN')")
+    @Cacheable(value = "allUsers")
     public ResponseEntity<List<UserResponse>> getAllUsers() {
         log.info("Admin requested all users");
 
