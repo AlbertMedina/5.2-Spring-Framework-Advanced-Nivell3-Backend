@@ -26,21 +26,24 @@ public class RegisterUserUseCaseImpl implements RegisterUserUseCase {
     @Override
     @Transactional
     public User execute(RegisterUserCommand command) {
+        Name name = new Name(command.name());
+        Surname surname = new Surname(command.surname());
         Username username = new Username(command.username());
         Email email = new Email(command.email());
 
-        validateRegisterUser(username, email);
-
         String rawPassword = command.password();
         Password.validate(rawPassword);
+        Password password = new Password(passwordEncoder.encode(rawPassword));
+
+        validateRegisterUser(username, email);
 
         User user = User.create(
                 null,
-                new Name(command.name()),
-                new Surname(command.surname()),
+                name,
+                surname,
                 username,
                 email,
-                new Password(passwordEncoder.encode(rawPassword)),
+                password,
                 Role.USER
         );
 
