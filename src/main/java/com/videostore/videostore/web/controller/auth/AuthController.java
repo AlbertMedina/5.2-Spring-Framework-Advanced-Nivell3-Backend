@@ -7,9 +7,9 @@ import com.videostore.videostore.application.port.in.auth.RegisterUserUseCase;
 import com.videostore.videostore.domain.model.user.User;
 import com.videostore.videostore.infrastructure.security.JwtService;
 import com.videostore.videostore.web.controller.auth.dto.request.LoginUserRequest;
+import com.videostore.videostore.web.controller.auth.dto.response.AuthUserResponse;
 import com.videostore.videostore.web.controller.auth.dto.response.LoginResponse;
 import com.videostore.videostore.web.controller.auth.dto.request.RegisterUserRequest;
-import com.videostore.videostore.web.controller.user.dto.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -43,7 +43,7 @@ public class AuthController {
 
     @Operation(summary = "Register a new user")
     @PostMapping("/auth/register")
-    public ResponseEntity<UserResponse> registerUser(@RequestBody @Valid RegisterUserRequest request) {
+    public ResponseEntity<AuthUserResponse> registerUser(@RequestBody @Valid RegisterUserRequest request) {
         log.info("Received request to register new user with username {}", request.username());
 
         RegisterUserCommand command = new RegisterUserCommand(
@@ -57,7 +57,7 @@ public class AuthController {
 
         log.info("User with id {} and username {} successfully registered", user.getId().value(), user.getUsername().value());
 
-        UserResponse response = UserResponse.fromDomain(user);
+        AuthUserResponse response = AuthUserResponse.fromDomain(user);
         return ResponseEntity.status(201).body(response);
     }
 
@@ -75,6 +75,6 @@ public class AuthController {
         log.info("User with id {} and username {} successfully logged in", user.getId().value(), user.getUsername().value());
 
         String token = jwtService.generateToken(user.getUsername().value());
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(token, user.getRole()));
     }
 }
