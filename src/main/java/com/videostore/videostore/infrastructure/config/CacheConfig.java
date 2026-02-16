@@ -14,7 +14,16 @@ public class CacheConfig {
 
     @Bean
     public CaffeineCacheManager cacheManager() {
-        CaffeineCacheManager cacheManager = new CaffeineCacheManager("userFavourites", "movies");
+        CaffeineCacheManager cacheManager = new CaffeineCacheManager(
+                "users",
+                "allUsers",
+                "movies",
+                "myRentals",
+                "rentalsByUser",
+                "rentalsByMovie",
+                "reviewsByMovie",
+                "favourites"
+        );
         cacheManager.setCaffeine(Caffeine.newBuilder()
                 .expireAfterWrite(10, TimeUnit.MINUTES)
                 .maximumSize(1000));
