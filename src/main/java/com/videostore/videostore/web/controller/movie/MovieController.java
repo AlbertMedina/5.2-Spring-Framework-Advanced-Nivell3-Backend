@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.lang.Nullable;
@@ -61,6 +62,7 @@ public class MovieController {
     @Operation(summary = "Add a movie to the video store")
     @PostMapping(value = "/movies", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
+    @CacheEvict(value = "genres", allEntries = true)
     public ResponseEntity<MovieResponse> addMovie(
             @RequestPart("movie") @Valid AddMovieRequest request,
             @RequestPart(value = "poster", required = false) @Nullable MultipartFile poster
@@ -92,7 +94,10 @@ public class MovieController {
     @Operation(summary = "Update the info for a movie in the video store")
     @PutMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
-    @CacheEvict(value = "movies", key = "#movieId")
+    @Caching(evict = {
+            @CacheEvict(value = "movies", key = "#movieId"),
+            @CacheEvict(value = "genres", allEntries = true)
+    })
     public ResponseEntity<MovieResponse> updateMovieInfo(@PathVariable @Positive Long movieId, @RequestBody @Valid UpdateMovieInfoRequest request) {
         log.info("Admin requested to update movie id {}", movieId);
 
@@ -115,7 +120,10 @@ public class MovieController {
     @Operation(summary = "Remove a movie from the video store")
     @DeleteMapping("/movies/{movieId}")
     @PreAuthorize("hasRole('ADMIN')")
-    @CacheEvict(value = "movies", key = "#movieId")
+    @Caching(evict = {
+            @CacheEvict(value = "movies", key = "#movieId"),
+            @CacheEvict(value = "genres", allEntries = true)
+    })
     public ResponseEntity<Void> removeMovie(@PathVariable @Positive Long movieId) {
         log.info("Admin requested to remove movie id {}", movieId);
 
@@ -164,6 +172,7 @@ public class MovieController {
 
     @Operation(summary = "Get all genres of movies in the video store")
     @GetMapping("/movies/genres")
+    @Cacheable(value = "genres")
     public ResponseEntity<List<String>> getAllGenres() {
         log.info("Request received to get all genres");
 
