@@ -9,6 +9,6 @@ import java.util.List;
 
 public interface MovieRepositoryJPA extends JpaRepository<MovieEntity, Long>, JpaSpecificationExecutor<MovieEntity> {
 
-    @Query("SELECT DISTINCT m.genre FROM MovieEntity m")
+    @Query("SELECT DISTINCT LOWER(m.genre) FROM MovieEntity m ORDER BY LOWER(m.genre)")
     List<String> findAllGenres();
 }
