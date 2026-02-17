@@ -18,6 +18,7 @@ public class CacheConfig {
                 "users",
                 "allUsers",
                 "movies",
+                "genres",
                 "myRentals",
                 "rentalsByUser",
                 "rentalsByMovie",
