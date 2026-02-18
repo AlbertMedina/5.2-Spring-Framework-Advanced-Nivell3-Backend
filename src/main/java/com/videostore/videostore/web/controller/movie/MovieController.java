@@ -199,7 +199,7 @@ public class MovieController {
 
         RatingSummary ratingSUmmary = getMovieRatingUseCase.execute(movieId);
 
-        log.info("Successfully retrieved average rating reviews for movie {}", movieId);
+        log.info("Successfully retrieved a rating of {} from {} reviews for movie {}", ratingSUmmary.average(), ratingSUmmary.count(), movieId);
 
         RatingResponse response = new RatingResponse(ratingSUmmary.average(), ratingSUmmary.count());
         return ResponseEntity.ok(response);
