@@ -69,7 +69,7 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     public Optional<RatingSummary> getAverageRatingByMovieId(Long movieId) {
         Object[] result = reviewRepositoryJPA.findAverageRatingByMovieId(movieId);
 
-        if (result == null || result[0] == null) {
+        if (result == null || result.length < 2 || result[0] == null) {
             return Optional.empty();
         }
 
