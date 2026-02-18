@@ -365,8 +365,8 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(2));
     }
 
     @Test
@@ -381,8 +381,8 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(0));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(0));
     }
 
     @Test
@@ -401,8 +401,8 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(2));
     }
 
     @Test
@@ -421,8 +421,8 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(1));
     }
 
     @Test
@@ -443,8 +443,8 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(2));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(2));
     }
 
     @Test
@@ -464,8 +464,8 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(1));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(1));
     }
 
     @Test
@@ -483,10 +483,10 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(3))
-                .andExpect(jsonPath("$[0].title").value("Movie 1"))
-                .andExpect(jsonPath("$[2].title").value("Movie 3"));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(3))
+                .andExpect(jsonPath("$.content[0].title").value("Movie 1"))
+                .andExpect(jsonPath("$.content[2].title").value("Movie 3"));
     }
 
     @Test
@@ -504,10 +504,10 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "false")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(3))
-                .andExpect(jsonPath("$[0].title").value("Movie 3"))
-                .andExpect(jsonPath("$[2].title").value("Movie 1"));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(3))
+                .andExpect(jsonPath("$.content[0].title").value("Movie 3"))
+                .andExpect(jsonPath("$.content[2].title").value("Movie 1"));
     }
 
     @Test
@@ -531,10 +531,10 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
                         .param("ascending", "true")
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(3))
-                .andExpect(jsonPath("$[0].title").value("Movie 3"))
-                .andExpect(jsonPath("$[2].title").value("Movie 1"));
+                .andExpect(jsonPath("$.content").isArray())
+                .andExpect(jsonPath("$.content.length()").value(3))
+                .andExpect(jsonPath("$.content[0].title").value("Movie 3"))
+                .andExpect(jsonPath("$.content[2].title").value("Movie 1"));
     }
 
     @Test
@@ -565,6 +565,7 @@ public class MovieControllerIntegrationTest extends AbstractIntegrationTest {
         mockMvc.perform(get("/movies")
                         .param("page", "1")
                         .param("size", "10")
+                        .param("sortBy", "invalid")
                         .param("sortBy", "invalid")
                         .param("ascending", "false")
                         .header("Authorization", "Bearer " + user.token()))
