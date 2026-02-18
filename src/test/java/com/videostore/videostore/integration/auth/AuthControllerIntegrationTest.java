@@ -29,7 +29,7 @@ class AuthControllerIntegrationTest extends AbstractIntegrationTest {
                         .content(body))
                 .andExpect(status().isCreated());
 
-        body = registerBody("User 2", "Example 2", "user1", "user2@test.com", "Password67890");
+        body = registerBody("User B", "Example B", "user1", "user2@test.com", "Password67890");
 
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -46,7 +46,7 @@ class AuthControllerIntegrationTest extends AbstractIntegrationTest {
                         .content(body))
                 .andExpect(status().isCreated());
 
-        body = registerBody("User 2", "Example 2", "user2", "user1@test.com", "Password67890");
+        body = registerBody("User B", "Example B", "user2", "user1@test.com", "Password67890");
 
         mockMvc.perform(post("/auth/register")
                         .contentType(MediaType.APPLICATION_JSON)
