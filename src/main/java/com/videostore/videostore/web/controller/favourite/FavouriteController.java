@@ -5,9 +5,11 @@ import com.videostore.videostore.application.command.favourite.RemoveFavouriteCo
 import com.videostore.videostore.application.port.in.favourite.AddFavouriteUseCase;
 import com.videostore.videostore.application.port.in.favourite.GetMyFavouritesUseCase;
 import com.videostore.videostore.application.port.in.favourite.RemoveFavouriteUseCase;
+import com.videostore.videostore.application.port.in.favourite.UserHasFavouriteMovieUseCase;
 import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.web.controller.favourite.dto.request.AddFavouriteRequest;
 import com.videostore.videostore.web.controller.favourite.dto.response.FavouriteResponse;
+import com.videostore.videostore.web.controller.favourite.dto.response.UserHasFavouriteMovieResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -33,15 +35,18 @@ public class FavouriteController {
     private final AddFavouriteUseCase addFavouriteUseCase;
     private final RemoveFavouriteUseCase removeFavouriteUseCase;
     private final GetMyFavouritesUseCase getMyFavouritesUseCase;
+    private final UserHasFavouriteMovieUseCase userHasFavouriteMovieUseCase;
 
     public FavouriteController(
             AddFavouriteUseCase addFavouriteUseCase,
             RemoveFavouriteUseCase removeFavouriteUseCase,
-            GetMyFavouritesUseCase getMyFavouritesUseCase
+            GetMyFavouritesUseCase getMyFavouritesUseCase,
+            UserHasFavouriteMovieUseCase userHasFavouriteMovieUseCase
     ) {
         this.addFavouriteUseCase = addFavouriteUseCase;
         this.removeFavouriteUseCase = removeFavouriteUseCase;
         this.getMyFavouritesUseCase = getMyFavouritesUseCase;
+        this.userHasFavouriteMovieUseCase = userHasFavouriteMovieUseCase;
     }
 
     @Operation(summary = "Add a movie to the authenticated user favourites")
@@ -84,6 +89,19 @@ public class FavouriteController {
 
         log.info("User {} successfully retrieved {} favourite movies", authentication.getName(), response.size());
 
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Check if a movie is marked as favourite by the authenticated user")
+    @GetMapping("/favourites/movies/{movieId}")
+    public ResponseEntity<UserHasFavouriteMovieResponse> userHasFavouriteMovie(@PathVariable @Positive Long movieId, Authentication authentication) {
+        log.info("User {} requested if has favourite movie id {}", authentication.getName(), movieId);
+
+        boolean isFavourite = userHasFavouriteMovieUseCase.execute(authentication.getName(), movieId);
+
+        log.info("Successfully checked request with result {}", isFavourite);
+
+        UserHasFavouriteMovieResponse response = new UserHasFavouriteMovieResponse(isFavourite);
         return ResponseEntity.ok(response);
     }
 }

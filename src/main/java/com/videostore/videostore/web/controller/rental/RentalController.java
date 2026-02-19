@@ -5,6 +5,7 @@ import com.videostore.videostore.application.command.rental.ReturnMovieCommand;
 import com.videostore.videostore.application.port.in.rental.*;
 import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.web.controller.rental.dto.request.RentMovieRequest;
+import com.videostore.videostore.web.controller.rental.dto.response.UserHasRentedMovieResponse;
 import com.videostore.videostore.web.controller.rental.dto.response.RentalResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,19 +36,22 @@ public class RentalController {
     private final GetMyRentalsUseCase getMyRentalsUseCase;
     private final GetRentalsByUserUseCase getRentalsByUserUseCase;
     private final GetRentalsByMovieUseCase getRentalsByMovieUseCase;
+    private final UserHasRentedMovieUseCase userHasRentedMovieUseCase;
 
     public RentalController(
             RentMovieUseCase rentMovieUseCase,
             ReturnMovieUseCase returnMovieUseCase,
             GetMyRentalsUseCase getMyRentalsUseCase,
             GetRentalsByUserUseCase getRentalsByUserUseCase,
-            GetRentalsByMovieUseCase getRentalsByMovieUseCase
+            GetRentalsByMovieUseCase getRentalsByMovieUseCase,
+            UserHasRentedMovieUseCase userHasRentedMovieUseCase
     ) {
         this.rentMovieUseCase = rentMovieUseCase;
         this.returnMovieUseCase = returnMovieUseCase;
         this.getMyRentalsUseCase = getMyRentalsUseCase;
         this.getRentalsByUserUseCase = getRentalsByUserUseCase;
         this.getRentalsByMovieUseCase = getRentalsByMovieUseCase;
+        this.userHasRentedMovieUseCase = userHasRentedMovieUseCase;
     }
 
     @Operation(summary = "Rent a movie by the authenticated user")
@@ -128,6 +132,19 @@ public class RentalController {
 
         log.info("Successfully retrieved {} rentals for movie id {}", response.size(), movieId);
 
+        return ResponseEntity.ok(response);
+    }
+
+    @Operation(summary = "Check if a movie is rented by the authenticated user")
+    @GetMapping("/rentals/movies/{movieId}")
+    public ResponseEntity<UserHasRentedMovieResponse> userHasRentedMovie(@PathVariable @Positive Long movieId, Authentication authentication) {
+        log.info("User {} requested if has rented movie id {}", authentication.getName(), movieId);
+
+        boolean rented = userHasRentedMovieUseCase.execute(authentication.getName(), movieId);
+
+        log.info("Successfully checked request with result {}", rented);
+
+        UserHasRentedMovieResponse response = new UserHasRentedMovieResponse(rented);
         return ResponseEntity.ok(response);
     }
 }
