@@ -63,9 +63,7 @@ public class AddReviewUseCaseImpl implements AddReviewUseCase {
                 new ReviewDate(LocalDate.now())
         );
 
-        Review newReview = reviewRepository.addReview(review);
-
-        return new ReviewDetails(review, username.value());
+        return new ReviewDetails(reviewRepository.addReview(review), username.value());
     }
 
     private void validateReview(UserId userId, MovieId movieId) {
