@@ -20,5 +20,5 @@ public interface ReviewRepositoryJPA extends JpaRepository<ReviewEntity, Long> {
     Object findAverageRatingByMovieId(@Param("movieId") Long movieId);
 
     @Query("SELECT r.movie.id, AVG(r.rating), COUNT(r) FROM ReviewEntity r WHERE r.movie.id IN :movieIds GROUP BY r.movie.id")
-    Object[] findAverageRatingsByMovieIds(@Param("movieIds") List<Long> movieIds);
+    List<Object> findAverageRatingsByMovieIds(@Param("movieIds") List<Long> movieIds);
 }

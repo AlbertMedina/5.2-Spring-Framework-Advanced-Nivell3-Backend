@@ -86,19 +86,19 @@ public class ReviewRepositoryImpl implements ReviewRepository {
 
     @Override
     public Map<Long, RatingSummary> getAverageRatingsByMovieIds(List<MovieId> movieIds) {
-        Object[] results = reviewRepositoryJPA.findAverageRatingsByMovieIds(movieIds.stream().map(MovieId::value).toList());
+        List<Object> results = reviewRepositoryJPA.findAverageRatingsByMovieIds(movieIds.stream().map(MovieId::value).toList());
 
         Map<Long, RatingSummary> ratingsMap = new HashMap<>();
 
-        for (Object res : results) {
-            if (res instanceof Object[] arr && arr.length == 3) {
-                Number avg = (Number) arr[0];
-                Number cnt = (Number) arr[1];
-                Number movieIdNum = (Number) arr[2];
+        for (Object result : results) {
+            if (result instanceof Object[] resultArr && resultArr.length == 3) {
+                Number movieIdNum = (Number) resultArr[0];
+                Number avg = (Number) resultArr[1];
+                Number cnt = (Number) resultArr[2];
 
+                long movieId = (movieIdNum != null) ? movieIdNum.longValue() : 0L;
                 double average = (avg != null) ? avg.doubleValue() : 0.0;
                 int count = (cnt != null) ? cnt.intValue() : 0;
-                long movieId = (movieIdNum != null) ? movieIdNum.longValue() : 0L;
 
                 ratingsMap.put(movieId, new RatingSummary(average, count));
             }
