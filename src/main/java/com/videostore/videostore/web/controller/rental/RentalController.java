@@ -2,8 +2,8 @@ package com.videostore.videostore.web.controller.rental;
 
 import com.videostore.videostore.application.command.rental.RentMovieCommand;
 import com.videostore.videostore.application.command.rental.ReturnMovieCommand;
+import com.videostore.videostore.application.model.RentalDetails;
 import com.videostore.videostore.application.port.in.rental.*;
-import com.videostore.videostore.domain.model.rental.Rental;
 import com.videostore.videostore.web.controller.rental.dto.request.RentMovieRequest;
 import com.videostore.videostore.web.controller.rental.dto.response.UserHasRentedMovieResponse;
 import com.videostore.videostore.web.controller.rental.dto.response.RentalResponse;
@@ -65,11 +65,11 @@ public class RentalController {
         log.info("User {} requested to rent movie id {}", authentication.getName(), request.movieId());
 
         RentMovieCommand command = new RentMovieCommand(authentication.getName(), request.movieId());
-        Rental rental = rentMovieUseCase.execute(command);
+        RentalDetails rental = rentMovieUseCase.execute(command);
 
         log.info("User {} successfully rented movie id {}", authentication.getName(), request.movieId());
 
-        RentalResponse response = RentalResponse.fromDomain(rental);
+        RentalResponse response = RentalResponse.from(rental);
         return ResponseEntity.status(201).body(response);
     }
 
@@ -97,11 +97,11 @@ public class RentalController {
     public ResponseEntity<List<RentalResponse>> getMyRentals(Authentication authentication) {
         log.info("User {} requested all their active rentals", authentication.getName());
 
-        List<RentalResponse> response = getMyRentalsUseCase.execute(authentication.getName())
-                .stream().map(RentalResponse::fromDomain).toList();
+        List<RentalDetails> rentals = getMyRentalsUseCase.execute(authentication.getName());
 
-        log.info("User {} successfully retrieved {} active rentals", authentication.getName(), response.size());
+        log.info("User {} successfully retrieved {} active rentals", authentication.getName(), rentals.size());
 
+        List<RentalResponse> response = rentals.stream().map(RentalResponse::from).toList();
         return ResponseEntity.ok(response);
     }
 
@@ -112,11 +112,11 @@ public class RentalController {
     public ResponseEntity<List<RentalResponse>> getRentalsByUser(@PathVariable @Positive Long userId) {
         log.info("Admin requested all active rentals for user id {}", userId);
 
-        List<RentalResponse> response = getRentalsByUserUseCase.execute(userId)
-                .stream().map(RentalResponse::fromDomain).toList();
+        List<RentalDetails> rentals = getRentalsByUserUseCase.execute(userId);
 
-        log.info("Successfully retrieved {} rentals for user id {}", response.size(), userId);
+        log.info("Successfully retrieved {} rentals for user id {}", rentals.size(), userId);
 
+        List<RentalResponse> response = rentals.stream().map(RentalResponse::from).toList();
         return ResponseEntity.ok(response);
     }
 
@@ -127,11 +127,11 @@ public class RentalController {
     public ResponseEntity<List<RentalResponse>> getRentalsByMovie(@PathVariable @Positive Long movieId) {
         log.info("Admin requested all active rentals for movie id {}", movieId);
 
-        List<RentalResponse> response = getRentalsByMovieUseCase.execute(movieId)
-                .stream().map(RentalResponse::fromDomain).toList();
+        List<RentalDetails> rentals = getRentalsByMovieUseCase.execute(movieId);
 
-        log.info("Successfully retrieved {} rentals for movie id {}", response.size(), movieId);
+        log.info("Successfully retrieved {} rentals for movie id {}", rentals.size(), movieId);
 
+        List<RentalResponse> response = rentals.stream().map(RentalResponse::from).toList();
         return ResponseEntity.ok(response);
     }
 

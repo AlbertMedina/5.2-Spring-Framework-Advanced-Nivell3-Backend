@@ -12,6 +12,8 @@ public interface MovieRepository {
 
     Optional<Movie> findById(MovieId id);
 
+    List<Movie> findAllByIds(List<MovieId> userIds);
+
     boolean existsById(MovieId id);
 
     PagedResult<Movie> findAll(int page, int size, String genre, boolean onlyAvailable, String title, MovieSortBy sortBy, boolean ascending);

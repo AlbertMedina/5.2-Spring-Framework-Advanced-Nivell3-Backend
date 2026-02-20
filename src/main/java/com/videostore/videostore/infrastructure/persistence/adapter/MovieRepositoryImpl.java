@@ -34,6 +34,23 @@ public class MovieRepositoryImpl implements MovieRepository {
     }
 
     @Override
+    public List<Movie> findAllByIds(List<MovieId> movieIds) {
+        if (movieIds == null || movieIds.isEmpty()) {
+            return List.of();
+        }
+
+        List<Long> ids = movieIds.stream()
+                .map(MovieId::value)
+                .toList();
+
+        List<MovieEntity> movieEntities = movieRepositoryJPA.findAllById(ids);
+
+        return movieEntities.stream()
+                .map(MovieMapper::toDomain)
+                .toList();
+    }
+
+    @Override
     public boolean existsById(MovieId id) {
         return movieRepositoryJPA.existsById(id.value());
     }

@@ -1,19 +1,23 @@
 package com.videostore.videostore.web.controller.rental.dto.response;
 
-import com.videostore.videostore.domain.model.rental.Rental;
+import com.videostore.videostore.application.model.RentalDetails;
 
 public record RentalResponse(
         Long id,
         Long userId,
         Long movieId,
-        String rentalDate
+        String rentalDate,
+        String username,
+        String title
 ) {
-    public static RentalResponse fromDomain(Rental rental) {
+    public static RentalResponse from(RentalDetails rentalDetails) {
         return new RentalResponse(
-                rental.getId().value(),
-                rental.getUserId().value(),
-                rental.getMovieId().value(),
-                rental.getRentalDate().toString()
+                rentalDetails.rental().getId().value(),
+                rentalDetails.rental().getUserId().value(),
+                rentalDetails.rental().getMovieId().value(),
+                rentalDetails.rental().getRentalDate().toString(),
+                rentalDetails.username(),
+                rentalDetails.title()
         );
     }
 }

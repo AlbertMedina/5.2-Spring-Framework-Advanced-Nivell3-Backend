@@ -1,9 +1,9 @@
 package com.videostore.videostore.application.port.in.rental;
 
-import com.videostore.videostore.domain.model.rental.Rental;
+import com.videostore.videostore.application.model.RentalDetails;
 
 import java.util.List;
 
 public interface GetRentalsByMovieUseCase {
-    List<Rental> execute(Long movieId);
+    List<RentalDetails> execute(Long movieId);
 }

@@ -1,6 +1,7 @@
 package com.videostore.videostore.application.usecase.rental;
 
 import com.videostore.videostore.application.command.rental.RentMovieCommand;
+import com.videostore.videostore.application.model.RentalDetails;
 import com.videostore.videostore.application.port.in.rental.RentMovieUseCase;
 import com.videostore.videostore.domain.exception.conflict.MovieAlreadyRentedException;
 import com.videostore.videostore.domain.exception.conflict.MovieNotAvailableException;
@@ -36,7 +37,7 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
 
     @Override
     @Transactional
-    public Rental execute(RentMovieCommand command) {
+    public RentalDetails execute(RentMovieCommand command) {
         Username username = new Username(command.username());
         MovieId movieId = new MovieId(command.movieId());
 
@@ -55,7 +56,7 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
                 new RentalDate(LocalDate.now())
         );
 
-        return rentalRepository.addRental(rental);
+        return new RentalDetails(rentalRepository.addRental(rental), user.getUsername().value(), movie.getTitle().value());
     }
 
     private void validateRental(UserId userId, MovieId movieId, Movie movie) {
