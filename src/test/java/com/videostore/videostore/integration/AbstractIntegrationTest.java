@@ -15,7 +15,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.transaction.annotation.Transactional;
+import org.testcontainers.shaded.com.fasterxml.jackson.databind.ObjectMapper;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -181,14 +183,19 @@ public abstract class AbstractIntegrationTest {
                 """.formatted(movieId);
     }
 
-    protected void addReview(String userToken, Long movieId, int rating, String comment) throws Exception {
+    protected Long addReview(String userToken, Long movieId, int rating, String comment) throws Exception {
         String body = reviewBody(movieId, rating, comment);
 
-        mockMvc.perform(post("/reviews")
+        MvcResult result = mockMvc.perform(post("/reviews")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body)
                         .header("Authorization", "Bearer " + userToken))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn();
+        
+        String json = result.getResponse().getContentAsString();
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readTree(json).get("id").asLong();
     }
 
     protected String reviewBody(Long movieId, int rating, String comment) {

@@ -127,9 +127,9 @@ public class ReviewControllerIntegrationTest extends AbstractIntegrationTest {
 
         rentMovie(user.token(), movieId);
 
-        addReview(user.token(), movieId, 5, "Comment");
+        Long reviewId = addReview(user.token(), movieId, 5, "Comment");
 
-        mockMvc.perform(delete("/reviews/{movieId}", movieId)
+        mockMvc.perform(delete("/reviews/{reviewId}", reviewId)
                         .header("Authorization", "Bearer " + user.token()))
                 .andExpect(status().isNoContent());
     }

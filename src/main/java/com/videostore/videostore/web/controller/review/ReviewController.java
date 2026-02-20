@@ -67,9 +67,9 @@ public class ReviewController {
     @Operation(summary = "Remove a review given its id")
     @DeleteMapping("/reviews/{reviewId}")
     @Caching(evict = {
-            @CacheEvict(value = "reviewsByMovie", key = "#movieId"),
-            @CacheEvict(value = "movieRating", key = "#movieId"),
-            @CacheEvict(value = "movies", key = "#movieId")
+            @CacheEvict(value = "reviewsByMovie", allEntries = true),
+            @CacheEvict(value = "movieRating", allEntries = true),
+            @CacheEvict(value = "movies", allEntries = true)
     })
     public ResponseEntity<Void> removeReview(@PathVariable @Positive Long reviewId, Authentication authentication) {
         log.info("User {} requested to remove the review {}", authentication.getName(), reviewId);
