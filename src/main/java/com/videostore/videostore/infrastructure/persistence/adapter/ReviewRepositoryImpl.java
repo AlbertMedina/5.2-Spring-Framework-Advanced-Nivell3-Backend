@@ -36,8 +36,8 @@ public class ReviewRepositoryImpl implements ReviewRepository {
     }
 
     @Override
-    public Optional<Review> findByUserIdAndMovieId(UserId userId, MovieId movieId) {
-        return reviewRepositoryJPA.findByUserIdAndMovieId(userId.value(), movieId.value())
+    public Optional<Review> findById(ReviewId reviewId) {
+        return reviewRepositoryJPA.findById(reviewId.value())
                 .map(ReviewMapper::toDomain);
     }
 

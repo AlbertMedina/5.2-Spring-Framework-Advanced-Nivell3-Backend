@@ -64,20 +64,20 @@ public class ReviewController {
         return ResponseEntity.status(201).body(response);
     }
 
-    @Operation(summary = "Remove a review by the authenticated user from a movie")
-    @DeleteMapping("/reviews/{movieId}")
+    @Operation(summary = "Remove a review given its id")
+    @DeleteMapping("/reviews/{reviewId}")
     @Caching(evict = {
             @CacheEvict(value = "reviewsByMovie", key = "#movieId"),
             @CacheEvict(value = "movieRating", key = "#movieId"),
             @CacheEvict(value = "movies", key = "#movieId")
     })
-    public ResponseEntity<Void> removeReview(@PathVariable @Positive Long movieId, Authentication authentication) {
-        log.info("User {} requested to remove their review from movie {}", authentication.getName(), movieId);
+    public ResponseEntity<Void> removeReview(@PathVariable @Positive Long reviewId, Authentication authentication) {
+        log.info("User {} requested to remove the review {}", authentication.getName(), reviewId);
 
-        RemoveReviewCommand command = new RemoveReviewCommand(authentication.getName(), movieId);
+        RemoveReviewCommand command = new RemoveReviewCommand(authentication.getName(), reviewId);
         removeReviewUseCase.execute(command);
 
-        log.info("User {} successfully removed their review from movie {}", authentication.getName(), movieId);
+        log.info("User {} successfully removed the review {}", authentication.getName(), reviewId);
 
         return ResponseEntity.noContent().build();
     }

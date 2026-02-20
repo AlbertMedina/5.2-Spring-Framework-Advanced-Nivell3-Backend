@@ -12,7 +12,7 @@ import java.util.Optional;
 
 public interface ReviewRepository {
 
-    Optional<Review> findByUserIdAndMovieId(UserId userId, MovieId movieId);
+    Optional<Review> findById(ReviewId reviewId);
 
     boolean existsByUserIdAndMovieId(UserId userId, MovieId movieId);
 

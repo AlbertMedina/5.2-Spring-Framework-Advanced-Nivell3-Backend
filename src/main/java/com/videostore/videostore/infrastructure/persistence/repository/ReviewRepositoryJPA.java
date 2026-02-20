@@ -10,8 +10,6 @@ import java.util.Optional;
 
 public interface ReviewRepositoryJPA extends JpaRepository<ReviewEntity, Long> {
 
-    Optional<ReviewEntity> findByUserIdAndMovieId(Long userId, Long movieId);
-
     boolean existsByUserIdAndMovieId(Long userId, Long movieId);
 
     List<ReviewEntity> findAllByMovieId(Long movieId);
