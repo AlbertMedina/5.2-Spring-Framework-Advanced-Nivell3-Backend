@@ -13,7 +13,7 @@ public record FavouriteResponse(
                 favourite.getId().value(),
                 favourite.getUserId().value(),
                 favourite.getMovieId().value(),
-                favourite.getFavouriteDate().toString()
+                favourite.getFavouriteDate().value().toString()
         );
     }
 }

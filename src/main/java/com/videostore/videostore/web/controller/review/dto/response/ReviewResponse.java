@@ -18,7 +18,7 @@ public record ReviewResponse(
                 reviewDetails.review().getMovieId().value(),
                 reviewDetails.review().getRating().value(),
                 reviewDetails.review().getComment().value(),
-                reviewDetails.review().getReviewDate().toString(),
+                reviewDetails.review().getReviewDate().value().toString(),
                 reviewDetails.username()
         );
     }

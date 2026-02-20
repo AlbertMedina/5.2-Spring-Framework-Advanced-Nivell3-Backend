@@ -15,7 +15,7 @@ public record RentalResponse(
                 rentalDetails.rental().getId().value(),
                 rentalDetails.rental().getUserId().value(),
                 rentalDetails.rental().getMovieId().value(),
-                rentalDetails.rental().getRentalDate().toString(),
+                rentalDetails.rental().getRentalDate().value().toString(),
                 rentalDetails.username(),
                 rentalDetails.title()
         );
