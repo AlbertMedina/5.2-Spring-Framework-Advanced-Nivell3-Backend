@@ -55,7 +55,7 @@ public class AddMovieUseCaseImpl implements AddMovieUseCase {
                 newMovie.getDirector().value(),
                 newMovie.getSynopsis().value(),
                 newMovie.getNumberOfCopies().value(),
-                newMovie.getPosterUrl().value(),
+                newMovie.getPosterUrl() != null ? newMovie.getPosterUrl().value() : null,
                 new RatingSummary(0, 0)
         );
     }

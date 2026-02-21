@@ -60,7 +60,7 @@ public class GetAllMoviesUseCaseImpl implements GetAllMoviesUseCase {
                             movie.getDirector().value(),
                             movie.getSynopsis().value(),
                             movie.getNumberOfCopies().value(),
-                            movie.getPosterUrl().value(),
+                            movie.getPosterUrl() != null ? movie.getPosterUrl().value() : null,
                             rating);
                 })
                 .toList();

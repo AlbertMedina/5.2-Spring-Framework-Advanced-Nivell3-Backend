@@ -49,7 +49,7 @@ public class UpdateMovieInfoUseCaseImpl implements UpdateMovieInfoUseCase {
                 updated.getDirector().value(),
                 updated.getSynopsis().value(),
                 updated.getNumberOfCopies().value(),
-                updated.getPosterUrl().value(),
+                updated.getPosterUrl() != null ? updated.getPosterUrl().value() : null,
                 ratingSummary
         );
     }
