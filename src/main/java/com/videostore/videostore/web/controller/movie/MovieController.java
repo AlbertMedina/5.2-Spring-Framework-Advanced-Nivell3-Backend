@@ -90,11 +90,11 @@ public class MovieController {
                 hasPoster ? poster.getOriginalFilename() : null
         );
 
-        MovieDetails movie = addMovieUseCase.execute(command);
+        MovieDetails movieDetails = addMovieUseCase.execute(command);
 
-        log.info("Movie '{}' successfully added with id {}", movie.movie().getTitle(), movie.movie().getId().value());
+        log.info("Movie '{}' successfully added with id {}", movieDetails.title(), movieDetails.id());
 
-        MovieResponse response = MovieResponse.from(movie);
+        MovieResponse response = MovieResponse.from(movieDetails);
         return ResponseEntity.status(201).body(response);
     }
 

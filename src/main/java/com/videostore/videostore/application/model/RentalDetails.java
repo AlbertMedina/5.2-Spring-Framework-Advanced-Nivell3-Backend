@@ -1,9 +1,10 @@
 package com.videostore.videostore.application.model;
 
-import com.videostore.videostore.domain.model.rental.Rental;
+import java.time.LocalDate;
 
 public record RentalDetails(
-        Rental rental,
+        Long id,
+        LocalDate rentalDate,
         String username,
         String title
 ) {

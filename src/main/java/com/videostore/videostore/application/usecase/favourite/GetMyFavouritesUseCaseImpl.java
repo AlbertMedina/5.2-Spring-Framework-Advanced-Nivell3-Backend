@@ -75,7 +75,15 @@ public class GetMyFavouritesUseCaseImpl implements GetMyFavouritesUseCase {
                             f.getId().value(),
                             f.getFavouriteDate().value(),
                             new MovieDetails(
-                                    movie,
+                                    movie.getId().value(),
+                                    movie.getTitle().value(),
+                                    movie.getYear().value(),
+                                    movie.getGenre().value(),
+                                    movie.getDuration().value(),
+                                    movie.getDirector().value(),
+                                    movie.getSynopsis().value(),
+                                    movie.getNumberOfCopies().value(),
+                                    movie.getPosterUrl().value(),
                                     rating
                             )
                     );

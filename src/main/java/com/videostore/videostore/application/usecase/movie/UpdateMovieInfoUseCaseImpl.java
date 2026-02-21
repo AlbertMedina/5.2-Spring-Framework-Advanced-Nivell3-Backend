@@ -40,6 +40,17 @@ public class UpdateMovieInfoUseCaseImpl implements UpdateMovieInfoUseCase {
 
         RatingSummary ratingSummary = reviewRepository.getAverageRatingByMovieId(movieId).orElse(new RatingSummary(0.0, 0));
 
-        return new MovieDetails(updated, ratingSummary);
+        return new MovieDetails(
+                updated.getId().value(),
+                updated.getTitle().value(),
+                updated.getYear().value(),
+                updated.getGenre().value(),
+                updated.getDuration().value(),
+                updated.getDirector().value(),
+                updated.getSynopsis().value(),
+                updated.getNumberOfCopies().value(),
+                updated.getPosterUrl().value(),
+                ratingSummary
+        );
     }
 }

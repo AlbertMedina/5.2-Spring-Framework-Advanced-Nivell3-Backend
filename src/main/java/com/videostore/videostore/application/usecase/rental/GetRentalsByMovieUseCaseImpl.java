@@ -47,7 +47,12 @@ public class GetRentalsByMovieUseCaseImpl implements GetRentalsByMovieUseCase {
                 .collect(Collectors.toMap(User::getId, u -> u.getUsername().value()));
 
         return rentals.stream()
-                .map(r -> new RentalDetails(r, userIdToUsername.getOrDefault(r.getUserId(), "Unknown"), movie.getTitle().value()))
+                .map(r -> new RentalDetails(
+                        r.getId().value(),
+                        r.getRentalDate().value(),
+                        userIdToUsername.getOrDefault(r.getUserId(), "Unknown"),
+                        movie.getTitle().value())
+                )
                 .toList();
     }
 }

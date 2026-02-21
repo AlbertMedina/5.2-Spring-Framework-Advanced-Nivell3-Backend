@@ -56,7 +56,14 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
                 new RentalDate(LocalDate.now())
         );
 
-        return new RentalDetails(rentalRepository.addRental(rental), user.getUsername().value(), movie.getTitle().value());
+        Rental newRental = rentalRepository.addRental(rental);
+
+        return new RentalDetails(
+                newRental.getId().value(),
+                newRental.getRentalDate().value(),
+                user.getUsername().value(),
+                movie.getTitle().value()
+        );
     }
 
     private void validateRental(UserId userId, MovieId movieId, Movie movie) {

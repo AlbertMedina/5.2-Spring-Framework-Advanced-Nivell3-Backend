@@ -1,8 +1,6 @@
 package com.videostore.videostore.web.controller.movie.dto.response;
 
 import com.videostore.videostore.application.model.MovieDetails;
-import com.videostore.videostore.domain.common.RatingSummary;
-import com.videostore.videostore.domain.model.movie.Movie;
 
 public record MovieResponse(
         Long id,
@@ -18,20 +16,17 @@ public record MovieResponse(
 ) {
 
     public static MovieResponse from(MovieDetails movieDetails) {
-        Movie movie = movieDetails.movie();
-        RatingSummary rating = movieDetails.rating();
-
         return new MovieResponse(
-                movie.getId().value(),
-                movie.getTitle().value(),
-                movie.getYear().value(),
-                movie.getGenre().value(),
-                movie.getDuration().value(),
-                movie.getDirector().value(),
-                movie.getSynopsis().value(),
-                movie.getNumberOfCopies().value(),
-                movie.getPosterUrl() != null ? movie.getPosterUrl().value() : null,
-                rating != null ? RatingResponse.from(rating) : null
+                movieDetails.id(),
+                movieDetails.title(),
+                movieDetails.year(),
+                movieDetails.genre(),
+                movieDetails.duration(),
+                movieDetails.director(),
+                movieDetails.synopsis(),
+                movieDetails.numberOfCopies(),
+                movieDetails.posterUrl() != null ? movieDetails.posterUrl() : null,
+                movieDetails.rating() != null ? RatingResponse.from(movieDetails.rating()) : null
         );
     }
 }

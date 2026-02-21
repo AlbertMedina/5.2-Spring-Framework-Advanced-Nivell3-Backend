@@ -46,6 +46,17 @@ public class AddMovieUseCaseImpl implements AddMovieUseCase {
 
         Movie newMovie = movieRepository.addMovie(movie);
 
-        return new MovieDetails(newMovie, new RatingSummary(0, 0));
+        return new MovieDetails(
+                newMovie.getId().value(),
+                newMovie.getTitle().value(),
+                newMovie.getYear().value(),
+                newMovie.getGenre().value(),
+                newMovie.getDuration().value(),
+                newMovie.getDirector().value(),
+                newMovie.getSynopsis().value(),
+                newMovie.getNumberOfCopies().value(),
+                newMovie.getPosterUrl().value(),
+                new RatingSummary(0, 0)
+        );
     }
 }

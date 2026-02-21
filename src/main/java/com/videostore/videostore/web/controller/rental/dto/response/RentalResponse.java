@@ -4,18 +4,14 @@ import com.videostore.videostore.application.model.RentalDetails;
 
 public record RentalResponse(
         Long id,
-        Long userId,
-        Long movieId,
         String rentalDate,
         String username,
         String title
 ) {
     public static RentalResponse from(RentalDetails rentalDetails) {
         return new RentalResponse(
-                rentalDetails.rental().getId().value(),
-                rentalDetails.rental().getUserId().value(),
-                rentalDetails.rental().getMovieId().value(),
-                rentalDetails.rental().getRentalDate().value().toString(),
+                rentalDetails.id(),
+                rentalDetails.rentalDate().toString(),
                 rentalDetails.username(),
                 rentalDetails.title()
         );

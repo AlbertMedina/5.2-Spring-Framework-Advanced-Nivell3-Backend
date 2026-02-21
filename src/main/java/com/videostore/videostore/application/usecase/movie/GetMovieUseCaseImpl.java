@@ -29,6 +29,17 @@ public class GetMovieUseCaseImpl implements GetMovieUseCase {
         Movie movie = movieRepository.findById(movieId).orElseThrow(() -> new MovieNotFoundException(id));
         RatingSummary ratingSummary = reviewRepository.getAverageRatingByMovieId(movieId).orElse(new RatingSummary(0.0, 0));
 
-        return new MovieDetails(movie, ratingSummary);
+        return new MovieDetails(
+                movie.getId().value(),
+                movie.getTitle().value(),
+                movie.getYear().value(),
+                movie.getGenre().value(),
+                movie.getDuration().value(),
+                movie.getDirector().value(),
+                movie.getSynopsis().value(),
+                movie.getNumberOfCopies().value(),
+                movie.getPosterUrl().value(),
+                ratingSummary
+        );
     }
 }

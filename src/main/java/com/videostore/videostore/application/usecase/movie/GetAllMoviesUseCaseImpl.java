@@ -51,7 +51,17 @@ public class GetAllMoviesUseCaseImpl implements GetAllMoviesUseCase {
                 .map(movie -> {
                     RatingSummary rating = ratings.get(movie.getId().value());
                     if (rating == null) rating = new RatingSummary(0, 0);
-                    return new MovieDetails(movie, rating);
+                    return new MovieDetails(
+                            movie.getId().value(),
+                            movie.getTitle().value(),
+                            movie.getYear().value(),
+                            movie.getGenre().value(),
+                            movie.getDuration().value(),
+                            movie.getDirector().value(),
+                            movie.getSynopsis().value(),
+                            movie.getNumberOfCopies().value(),
+                            movie.getPosterUrl().value(),
+                            rating);
                 })
                 .toList();
 

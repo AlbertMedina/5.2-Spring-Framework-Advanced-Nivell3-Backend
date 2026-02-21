@@ -7,7 +7,6 @@ import com.videostore.videostore.application.port.in.favourite.AddFavouriteUseCa
 import com.videostore.videostore.application.port.in.favourite.GetMyFavouritesUseCase;
 import com.videostore.videostore.application.port.in.favourite.RemoveFavouriteUseCase;
 import com.videostore.videostore.application.port.in.favourite.UserHasFavouriteMovieUseCase;
-import com.videostore.videostore.domain.model.favourite.Favourite;
 import com.videostore.videostore.web.controller.favourite.dto.request.AddFavouriteRequest;
 import com.videostore.videostore.web.controller.favourite.dto.response.FavouriteResponse;
 import com.videostore.videostore.web.controller.favourite.dto.response.UserHasFavouriteMovieResponse;

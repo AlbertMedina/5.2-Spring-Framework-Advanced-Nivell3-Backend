@@ -50,7 +50,13 @@ public class GetReviewsByMovieUseCaseImpl implements GetReviewsByMovieUseCase {
                 .collect(Collectors.toMap(User::getId, u -> u.getUsername().value()));
 
         return reviews.stream()
-                .map(r -> new ReviewDetails(r, userIdToUsername.getOrDefault(r.getUserId(), "Unknown")))
+                .map(r -> new ReviewDetails(
+                        r.getId().value(),
+                        r.getRating().value(),
+                        r.getComment().value(),
+                        r.getReviewDate().value(),
+                        userIdToUsername.getOrDefault(r.getUserId(), "Unknown"))
+                )
                 .toList();
     }
 }
