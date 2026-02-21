@@ -51,6 +51,7 @@ public class GetRentalsByMovieUseCaseImpl implements GetRentalsByMovieUseCase {
                         r.getId().value(),
                         r.getRentalDate().value(),
                         userIdToUsername.getOrDefault(r.getUserId(), "Unknown"),
+                        movie.getId().value(),
                         movie.getTitle().value())
                 )
                 .toList();

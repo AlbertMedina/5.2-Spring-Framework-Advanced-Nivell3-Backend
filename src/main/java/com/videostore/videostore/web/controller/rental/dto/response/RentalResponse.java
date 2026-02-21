@@ -6,6 +6,7 @@ public record RentalResponse(
         Long id,
         String rentalDate,
         String username,
+        Long movieId,
         String title
 ) {
     public static RentalResponse from(RentalDetails rentalDetails) {
@@ -13,6 +14,7 @@ public record RentalResponse(
                 rentalDetails.id(),
                 rentalDetails.rentalDate().toString(),
                 rentalDetails.username(),
+                rentalDetails.movieId(),
                 rentalDetails.title()
         );
     }

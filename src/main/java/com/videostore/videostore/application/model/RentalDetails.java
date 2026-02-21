@@ -6,6 +6,7 @@ public record RentalDetails(
         Long id,
         LocalDate rentalDate,
         String username,
+        Long movieId,
         String title
 ) {
 }

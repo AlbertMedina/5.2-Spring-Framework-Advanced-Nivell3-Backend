@@ -62,6 +62,7 @@ public class RentMovieUseCaseImpl implements RentMovieUseCase {
                 newRental.getId().value(),
                 newRental.getRentalDate().value(),
                 user.getUsername().value(),
+                movie.getId().value(),
                 movie.getTitle().value()
         );
     }

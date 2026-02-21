@@ -43,15 +43,16 @@ public class GetRentalsByUserUseCaseImpl implements GetRentalsByUserUseCase {
 
         List<Movie> movies = movieRepository.findAllByIds(movieIds);
 
-        Map<MovieId, String> movieIdToTitle = movies.stream()
-                .collect(Collectors.toMap(Movie::getId, m -> m.getTitle().value()));
+        Map<MovieId, Movie> movieIdToMovie = movies.stream()
+                .collect(Collectors.toMap(Movie::getId, m -> m));
 
         return rentals.stream()
                 .map(r -> new RentalDetails(
                         r.getId().value(),
                         r.getRentalDate().value(),
                         user.getUsername().value(),
-                        movieIdToTitle.getOrDefault(r.getMovieId(), "Unknown"))
+                        movieIdToMovie.getOrDefault(r.getMovieId(), null).getId().value(),
+                        movieIdToMovie.getOrDefault(r.getMovieId(), null).getTitle().value())
                 )
                 .toList();
     }
